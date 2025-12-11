@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Record</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+    <h1>Edit Record</h1>
+
+    <form action="/records/edit/<%= record.id %>?_method=PUT" method="POST">
+
+        <!-- Edit the activity name -->
+        <label for="activity">Activity</label>
+        <input 
+            type="text" 
+            id="activity"
+            name="activity" 
+            value="<%= record.activity %>" 
+            required
+        >
+
+        <!-- Edit the activity duration -->
+        <label for="duration">Duration (minutes)</label>
+        <input 
+            type="number" 
+            id="duration"
+            name="duration" 
+            min="1"
+            value="<%= record.duration %>"
+            required
+        >
+
+        <!-- Edit calories burnt -->
+        <label for="calories_burnt">Calories burnt (optional)</label>
+        <input 
+            type="number" 
+            id="calories_burnt"
+            name="calories_burnt" 
+            min="0"
+            value="<%= record.calories_burnt !== null ? record.calories_burnt : '' %>"
+        >
+
+        <!-- Edit how intense the activity has felt -->
+        <label for="intensity">Intensity (0–5)</label>
+        <input 
+            type="number" 
+            id="intensity"
+            name="intensity" 
+            min="0" 
+            max="5"
+            value="<%= record.intensity !== null ? record.intensity : '' %>"
+        >
+
+        <button type="submit">Save</button>
+    </form>
+
+    <a href="/records">Back to records</a>
+
+</body>
+</html>
+
+

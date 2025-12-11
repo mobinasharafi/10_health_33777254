@@ -1,0 +1,150 @@
+<!DOCTYPE html> 
+<html>
+<head>
+    <title>About You</title>
+    <link rel="stylesheet" href="/css/style.css">
+
+    <style>
+        .hidden { display: none; }
+        .shown { display: block; }
+    </style>
+</head>
+<body>
+
+      <nav>
+     <a href="/">Home</a>
+     <a href="/about">About</a>
+
+     <% if (session && session.userId) { %>
+        <a href="/records">View My Records</a>
+        <a href="/profile">Profile</a>
+        <a href="/vision">Vision Board</a>
+        <a href="/logout">Logout</a>
+     <% } else { %>
+        <a href="/login">Login</a>
+        <a href="/register">Register</a>
+     <% } %>
+     </nav>
+
+
+    <h1>About You</h1>
+
+    <% if (session && session.success) { %>
+        <p style="color:green;"><%= session.success %></p>
+        <% session.success = null; %>
+    <% } %>
+
+    <% 
+        const isCustomGoal =
+            user.goal !== "Weight gain" &&
+            user.goal !== "Weight loss" &&
+            user.goal !== "Improve overall health/fitness" &&
+            user.goal !== "Building a better physique";
+    %>
+
+    <form action="/profile" method="POST">
+
+        <label>First name:</label>
+        <input type="text" name="first_name" value="<%= user.first_name %>" required>
+
+        <label>Last name:</label>
+        <input type="text" name="last_name" value="<%= user.last_name %>" required>
+
+        <label>Age:</label>
+        <input type="number" name="age" value="<%= user.age %>" min="1" max="120" required>
+
+        <label>Height (cm):</label>
+        <input type="number" name="height_cm" value="<%= user.height_cm %>" min="50" max="250" required>
+
+        <label>Weight (kg):</label>
+        <input type="number" name="weight_kg" value="<%= user.weight_kg %>" min="20" max="300" required>
+
+        <label>Your health goal:</label>
+        <select name="goal" id="goal-select">
+
+            <option value="Weight gain"
+                <%= user.goal === "Weight gain" ? 'selected="selected"' : '' %>>
+                Weight gain
+            </option>
+
+            <option value="Weight loss"
+                <%= user.goal === "Weight loss" ? 'selected="selected"' : '' %>>
+                Weight loss
+            </option>
+
+            <option value="Improve overall health/fitness"
+                <%= user.goal === "Improve overall health/fitness" ? 'selected="selected"' : '' %>>
+                Improve overall health/fitness
+            </option>
+
+            <option value="Building a better physique"
+                <%= user.goal === "Building a better physique" ? 'selected="selected"' : '' %>>
+                Building a better physique
+             </option>
+             <!-- Dropdown for health goals; if the user selects "Other", a text field appears for entering a custom goal -->
+
+             <option value="Other"
+                <%= isCustomGoal ? 'selected="selected"' : '' %>>
+                Other
+             </option>
+
+        </select>
+         
+        <label 
+            id="goal-other-label"
+            class="<%= isCustomGoal ? 'shown' : 'hidden' %>">
+            If "Other", describe your goal:
+        </label>
+
+        <input 
+            type="text"
+            name="goal_other"
+            id="goal-other-input"
+            class="<%= isCustomGoal ? 'shown' : 'hidden' %>"
+            placeholder="Optional custom goal"
+            value="<%= isCustomGoal ? user.goal : '' %>"
+        >
+
+        <p>
+        BMI: <strong><%= user.bmi %></strong>
+        <br>
+
+        <% if (user.bmi_category) { %>
+            You are considered to be in the <strong><%= user.bmi_category %></strong> category according to your BMI.
+        <% } else { %>
+            BMI category not available. Please update your profile to refresh your information.
+        <% } %>
+        </p>
+
+        <button type="submit">Save changes</button>
+
+    </form>
+
+    <script>
+        const goalSelect = document.getElementById("goal-select");
+        const goalOtherLabel = document.getElementById("goal-other-label");
+        const goalOtherInput = document.getElementById("goal-other-input");
+
+        function toggleOtherField() {
+            if (goalSelect.value === "Other") {
+                goalOtherLabel.classList.remove("hidden");
+                goalOtherLabel.classList.add("shown");
+
+                goalOtherInput.classList.remove("hidden");
+                goalOtherInput.classList.add("shown");
+            } else {
+                goalOtherLabel.classList.remove("shown");
+                goalOtherLabel.classList.add("hidden");
+
+                goalOtherInput.classList.remove("shown");
+                goalOtherInput.classList.add("hidden");
+
+                goalOtherInput.value = "";
+            }
+        }
+
+        goalSelect.addEventListener("change", toggleOtherField);
+    </script>
+
+</body>
+</html>

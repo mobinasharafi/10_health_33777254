@@ -1,0 +1,118 @@
+/* Reset & basics */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #ffffff;
+    color: #222;
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 0 20px;
+    line-height: 1.6;
+    text-align: center; /* makes Add Record, headers, etc. centered */
+}
+
+/* Title */
+h1 {
+    margin-bottom: 25px;
+    font-size: 32px;
+    font-weight: bold;
+}
+
+/* Navigation centered */
+nav {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    margin-bottom: 25px;
+}
+
+nav a {
+    color: #0077ff;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+nav a:hover {
+    opacity: 0.75;
+}
+
+/* Links */
+a {
+    color: #0077ff;
+    text-decoration: none;
+}
+
+a:hover {
+    opacity: 0.75;
+}
+
+/* Buttons */
+button,
+input[type="submit"] {
+    background: #1b75dc;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 12px;
+}
+
+button:hover {
+    background: #005ecc;
+}
+
+/* Forms centered but inputs left-aligned */
+form {
+    width: 100%;
+    max-width: 400px;
+    margin: 20px auto;
+    text-align: left;
+}
+
+label {
+    margin-top: 12px;
+    font-weight: 600;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="password"],
+input[type="email"] {
+    padding: 8px;
+    margin-top: 6px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    width: 100%;
+}
+
+/* Record list */
+ul {
+    list-style: none;
+    margin-top: 20px;
+    padding-left: 0;
+    text-align: left; /* keeps record text readable */
+}
+
+li {
+    background: rgb(207, 236, 241);
+    padding: 14px;
+    border-radius: 6px;
+    margin-bottom: 12px;
+    border: 1px solid #7a5ecf;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Timestamp */
+span {
+    color: #777;
+    font-size: 0.9em;
+}

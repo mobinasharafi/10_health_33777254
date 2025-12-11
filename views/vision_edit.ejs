@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Vision</title>
+    <link rel="stylesheet" href="/css/style.css">
+
+    <style>
+        .edit-container {
+            max-width: 700px;
+            margin: auto;
+        }
+
+        textarea {
+            width: 100%;
+            height: 140px;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+
+        .save-btn {
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="/">Home</a>
+    <a href="/about">About</a>
+    <a href="/records">View My Records</a>
+    <a href="/profile">Profile</a>
+    <a href="/vision">Vision Board</a>
+    <a href="/logout">Logout</a>
+</nav>
+
+<h1>Edit Your Vision</h1>
+
+<div class="edit-container">
+
+    <form action="/vision/update" method="POST">
+        <label>Edit your vision text:</label>
+        <textarea name="vision_text" required><%= visionText %></textarea>
+
+        <button type="submit" class="save-btn">Save Changes</button>
+    </form>
+
+</div>
+
+</body>
+</html>
