@@ -2,13 +2,13 @@
 <html>
 <head>
     <title>Edit Record</title>
-    <link rel="stylesheet" href="/usr/455/css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 
     <h1>Edit Record</h1>
 
-    <form action="/usr/455/records/edit/<%= record.id %>?_method=PUT" method="POST">
+    <form action="/records/edit/<%= record.id %>?_method=PUT" method="POST">
 
         <!-- Edit the activity name -->
         <label for="activity">Activity</label>
@@ -55,7 +55,7 @@
         <button type="submit">Save</button>
     </form>
 
-    <a href="/usr/455/records">Back to records</a>
+    <a href="/records">Back to records</a>
 
 </body>
 </html>

@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>About You</title>
-    <link rel="stylesheet" href="/usr/455/css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
 
     <style>
         .hidden { display: none; }
@@ -12,17 +12,17 @@
 <body>
 
       <nav>
-     <a href="/usr/455/">Home</a>
-     <a href="/usr/455/about">About</a>
+     <a href="/">Home</a>
+     <a href="/about">About</a>
 
      <% if (session && session.userId) { %>
-        <a href="/usr/455/records">View My Records</a>
-        <a href="/usr/455/profile">Profile</a>
-        <a href="/usr/455/vision">Vision Board</a>
-        <a href="/usr/455/logout">Logout</a>
+        <a href="/records">View My Records</a>
+        <a href="/profile">Profile</a>
+        <a href="/vision">Vision Board</a>
+        <a href="/logout">Logout</a>
      <% } else { %>
-        <a href="/usr/455/login">Login</a>
-        <a href="/usr/455/register">Register</a>
+        <a href="/login">Login</a>
+        <a href="/register">Register</a>
      <% } %>
      </nav>
 
@@ -42,7 +42,7 @@
             user.goal !== "Building a better physique";
     %>
 
-    <form action="/usr/455/profile" method="POST">
+    <form action="/profile" method="POST">
 
         <label>First name:</label>
         <input type="text" name="first_name" value="<%= user.first_name %>" required>

@@ -1,14 +1,14 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html>
 <head>
     <title>Add Record</title>
-    <link rel="stylesheet" href="/usr/455/css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 
     <h1>Add New Health Record</h1>
 
-    <form action="/usr/455/records/add" method="POST">
+    <form action="/records/add" method="POST">
 
         <!-- What activity the user did -->
         <label>Activity:</label>
@@ -22,13 +22,13 @@
         <label>Calories burnt (optional):</label>
         <input type="number" name="calories_burnt" min="0">
 
-        <!-- Offer them help -->
+        <!-- If the user doesn't know the calories burnt, offer them help by asking AI -->
         <p style="font-size: 0.9em; margin-top: -5px; margin-bottom: 10px;">
             Unsure about calories burnt? Ask AI for an estimate.
             <a href="https://chat.openai.com" target="_blank">Get an estimate here</a>.
         </p>
 
-        <!-- Personal intensity rating -->
+        <!-- Personal intensity rating min 0 max 5) -->
         <label>Intensity (0–5):</label>
         <input type="number" name="intensity" min="0" max="5">
 
@@ -36,8 +36,7 @@
     </form>
 
     <br>
-    <a href="/usr/455/records">Back to Records</a>
+    <a href="/records">Back to Records</a>
 
 </body>
 </html>
-

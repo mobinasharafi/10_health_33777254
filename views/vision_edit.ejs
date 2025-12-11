@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Edit Vision</title>
-    <link rel="stylesheet" href="/usr/455/css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
 
     <style>
         .edit-container {
@@ -26,19 +26,19 @@
 <body>
 
 <nav>
-    <a href="/usr/455/">Home</a>
-    <a href="/usr/455/about">About</a>
-    <a href="/usr/455/records">View My Records</a>
-    <a href="/usr/455/profile">Profile</a>
-    <a href="/usr/455/vision">Vision Board</a>
-    <a href="/usr/455/logout">Logout</a>
+    <a href="/">Home</a>
+    <a href="/about">About</a>
+    <a href="/records">View My Records</a>
+    <a href="/profile">Profile</a>
+    <a href="/vision">Vision Board</a>
+    <a href="/logout">Logout</a>
 </nav>
 
 <h1>Edit Your Vision</h1>
 
 <div class="edit-container">
 
-    <form action="/usr/455/vision/update" method="POST">
+    <form action="/vision/update" method="POST">
         <label>Edit your vision text:</label>
         <textarea name="vision_text" required><%= visionText %></textarea>
 
