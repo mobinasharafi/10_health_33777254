@@ -1,10 +1,9 @@
-home=https://www.doc.gold.ac.uk/usr/455/            
+home=https://www.doc.gold.ac.uk/usr/455/
 about=https://www.doc.gold.ac.uk/usr/455/about
 login=https://www.doc.gold.ac.uk/usr/455/login
-register=https://www.doc.gold.ac.uk/usr/455/register
-
-profile=https://www.doc.gold.ac.uk/usr/455/profile          # requires login
-records=https://www.doc.gold.ac.uk/usr/455/records          # requires login
-add_record=https://www.doc.gold.ac.uk/usr/455/records/add   # requires login
-vision=https://www.doc.gold.ac.uk/usr/455/vision            # requires login
-vision_edit=https://www.doc.gold.ac.uk/usr/455/vision/edit  # requires login
+registr=https://www.doc.gold.ac.uk/usr/455/register
+profile=https://www.doc.gold.ac.uk/usr/455/profile
+records=https://www.doc.gold.ac.uk/usr/455/records
+add_record=https://www.doc.gold.ac.uk/usr/455/records/add
+vision=https://www.doc.gold.ac.uk/usr/455/vision
+vision_edit=https://www.doc.gold.ac.uk/usr/455/vision/edit
