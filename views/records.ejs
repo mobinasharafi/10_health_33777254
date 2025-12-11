@@ -2,32 +2,32 @@
 <html>
 <head>
     <title>Your Personal Health Records</title>
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/usr/455/css/style.css">
 </head>
 <body>
-    <!-- Navigating based on user session status --> 
+
  <nav>
-    <a href="/">Home</a>
-    <a href="/about">About</a>
+    <a href="/usr/455/">Home</a>
+    <a href="/usr/455/about">About</a>
+
     <% if (session && session.userId) { %>
-        <a href="/records">View My Records</a>
-        <a href="/profile">Profile</a>
-        <a href="/vision">Vision Board</a>
-        <a href="/logout">Logout</a>
+        <a href="/usr/455/records">View My Records</a>
+        <a href="/usr/455/profile">Profile</a>
+        <a href="/usr/455/vision">Vision Board</a>
+        <a href="/usr/455/logout">Logout</a>
     <% } else { %>
-        <a href="/login">Login</a>
-        <a href="/register">Register</a>
+        <a href="/usr/455/login">Login</a>
+        <a href="/usr/455/register">Register</a>
     <% } %>
  </nav>
 
-
     <h1>Your Personal Health Records</h1>
 
-    <a href="/records/add">Add New Record</a>
+    <a href="/usr/455/records/add">Add New Record</a>
     <br><br>
 
     <!-- Search bar -->
-    <form action="/records/search" method="GET">
+    <form action="/usr/455/records/search" method="GET">
         <input type="text" name="q" placeholder="Search activity..." required>
         <button type="submit">Search</button>
     </form>
@@ -35,7 +35,7 @@
     <br>
 
     <!-- Sorting dropdown -->
-    <form action="/records" method="GET">
+    <form action="/usr/455/records" method="GET">
         <label>Sort by:</label>
         <select name="sort">
             <option value="date_desc">Newest first</option>
@@ -55,45 +55,34 @@
         <% } else { %>
             <% records.forEach(record => { %>
                 <li>
-                    <!-- Activity name -->
+
                     <strong><%= record.activity %></strong>
                     —
-                    <!-- Duration (it's a required field) -->
                     <%= record.duration %> minutes
 
-                    <!-- Calories burnt (optional) -->
                     <% if (record.calories_burnt !== null) { %>
                         — <%= record.calories_burnt %> calories burnt
                     <% } else { %>
                         — calories unknown
                     <% } %>
 
-                    <!-- Intensity (optional: only shown if user entered something) -->
                     <% if (record.intensity !== null) { %>
                         — Intensity: <%= record.intensity %>/5
                     <% } %>
 
-                    <!-- For timestamp -->
                     <br>
                     (on <%= record.created_at.toLocaleString() %>)
 
-                    <!-- Optimal added feature: Edit Health Records 
-                         Updating existing health records is a common need,
-                         therefore I added an edit function to support full CRUD
-                         and improve usability by allowing corrections
-                         without needing to delete and recreate their data. 
-                         It uses RESTful routes, pre-filled forms,
-                         and method-override for secure updates. -->
-
-                    <!-- Edit button -->
-                    <a href="/records/edit/<%= record.id %>">Edit</a>
+                    <!-- Edit -->
+                    <a href="/usr/455/records/edit/<%= record.id %>">Edit</a>
                     &nbsp;
 
-                    <!-- Delete button -->
-                    <form action="/records/delete/<%= record.id %>?_method=DELETE" 
+                    <!-- Delete -->
+                    <form action="/usr/455/records/delete/<%= record.id %>?_method=DELETE"
                           method="POST" style="display:inline;">
                         <button type="submit">Delete</button>
                     </form>
+
                 </li>
             <% }) %>
         <% } %>
@@ -101,4 +90,3 @@
 
 </body>
 </html>
-

@@ -1,0 +1,4 @@
+home=https://www.doc.gold.ac.uk/usr/455/
+about=https://www.doc.gold.ac.uk/usr/455/about
+login=https://www.doc.gold.ac.uk/usr/455/login
+register=https://www.doc.gold.ac.uk/usr/455/register

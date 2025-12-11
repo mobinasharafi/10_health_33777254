@@ -2,22 +2,22 @@
 <html>
 <head>
     <title>Home</title>
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/usr/455/css/style.css">
 </head>
 <body>
 
      <nav>
-     <a href="/">Home</a>
-     <a href="/about">About</a>
+     <a href="/usr/455/">Home</a>
+     <a href="/usr/455/about">About</a>
 
      <% if (session && session.userId) { %>
-        <a href="/records">View My Records</a>
-        <a href="/profile">Profile</a>
-        <a href="/vision">Vision Board</a>
-        <a href="/logout">Logout</a>
+        <a href="/usr/455/records">View My Records</a>
+        <a href="/usr/455/profile">Profile</a>
+        <a href="/usr/455/vision">Vision Board</a>
+        <a href="/usr/455/logout">Logout</a>
      <% } else { %>
-        <a href="/login">Login</a>
-        <a href="/register">Register</a>
+        <a href="/usr/455/login">Login</a>
+        <a href="/usr/455/register">Register</a>
      <% } %>
      </nav>
 
@@ -36,8 +36,8 @@
     </p>
 
     <div style="display:flex; gap:20px; margin-top:20px;">
-        <img src="/images/health1.jpg" alt="Health image 1" style="width:45%; height:auto; border-radius:8px;">
-        <img src="/images/health2.jpg" alt="Health image 2" style="width:45%; height:auto; border-radius:8px;">
+        <img src="/usr/455/images/health1.jpg" alt="Health image 1" style="width:45%; height:auto; border-radius:8px;">
+        <img src="/usr/455/images/health2.jpg" alt="Health image 2" style="width:45%; height:auto; border-radius:8px;">
     </div>
 
 </body>

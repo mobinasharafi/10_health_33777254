@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Your Vision Board</title>
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/usr/455/css/style.css">
 
     <style>
         .vision-container {
@@ -25,7 +25,6 @@
             color: black;
         }
 
-        /* CENTER EDIT BUTTON PROPERLY */
         .edit-form {
             width: 100%;
             margin: 5px 0 10px 0;
@@ -35,16 +34,13 @@
         }
 
         .edit-btn {
-        font-size: 0.75rem;
-        padding: 4px 10px;
-        display: block;
-        margin: 0 auto;
-        text-align: center;
-
-       /* final style fixes: shift the button to the right */
-       transform: translateX(65px);
-       }    
-
+            font-size: 0.75rem;
+            padding: 4px 10px;
+            display: block;
+            margin: 0 auto;
+            text-align: center;
+            transform: translateX(65px);
+        }
 
         .image-grid {
             margin-top: 10px;
@@ -93,17 +89,17 @@
 <body>
 
 <nav>
-    <a href="/">Home</a>
-    <a href="/about">About</a>
+    <a href="/usr/455/">Home</a>
+    <a href="/usr/455/about">About</a>
 
     <% if (session && session.userId) { %>
-        <a href="/records">View My Records</a>
-        <a href="/profile">Profile</a>
-        <a href="/vision">Vision Board</a>
-        <a href="/logout">Logout</a>
+        <a href="/usr/455/records">View My Records</a>
+        <a href="/usr/455/profile">Profile</a>
+        <a href="/usr/455/vision">Vision Board</a>
+        <a href="/usr/455/logout">Logout</a>
     <% } else { %>
-        <a href="/login">Login</a>
-        <a href="/register">Register</a>
+        <a href="/usr/455/login">Login</a>
+        <a href="/usr/455/register">Register</a>
     <% } %>
 </nav>
 
@@ -115,13 +111,13 @@
 
         <p class="saved-vision"><%= visionText %></p>
 
-        <form action="/vision/edit" method="GET" class="edit-form">
+        <form action="/usr/455/vision/edit" method="GET" class="edit-form">
             <button class="edit-btn" type="submit">Edit Vision</button>
         </form>
 
     <% } else { %>
 
-        <form action="/vision" method="POST" style="margin-bottom: 10px;">
+        <form action="/usr/455/vision" method="POST" style="margin-bottom: 10px;">
             <label>Tell us about your vision for your health journey:</label>
             <textarea name="vision_text" required></textarea>
             <br>
@@ -132,7 +128,7 @@
 
     <h2>Add an image to your vision board</h2>
 
-    <form action="/vision/upload" method="POST" enctype="multipart/form-data" style="margin-bottom: 8px;">
+    <form action="/usr/455/vision/upload" method="POST" enctype="multipart/form-data" style="margin-bottom: 8px;">
         <input type="file" name="vision_image" accept="image/*" required>
         <button type="submit">Upload</button>
     </form>
@@ -145,15 +141,17 @@
         <div class="image-grid">
             <% images.forEach(img => { %>
                 <div class="image-wrapper">
-                    <img src="/uploads/<%= img.filename %>" alt="Vision Image">
+
+                    <img src="/usr/455/uploads/<%= img.filename %>" alt="Vision Image">
 
                     <form 
-                        action="/vision/delete-image/<%= img.id %>?_method=DELETE" 
+                        action="/usr/455/vision/delete-image/<%= img.id %>?_method=DELETE" 
                         method="POST"
                         onsubmit="return confirmDelete(event)"
                     >
                         <button class="delete-btn" type="submit">×</button>
                     </form>
+
                 </div>
             <% }) %>
         </div>
