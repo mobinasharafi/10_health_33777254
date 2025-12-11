@@ -15,9 +15,6 @@ const app = express();
 // The lab instructs that the app should run on 8000 per usual, it's followed here.
 const PORT = 8000;
 
-// Base path for deployment on Goldmiths server
-const BASE = "/usr/455";
-
 // This lets our app read the information people send in forms or as JSON data.
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -26,7 +23,7 @@ app.use(bodyParser.json());
 app.use(methodOverride('_method'));
 
 // This line tells the app where to find static files like CSS, images, and client-side JavaScript.
-app.use(BASE, express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // This part sets up sessions, so the app can know who the user is.
 // For example: a logged-in user stays logged in when they move between pages.
@@ -45,15 +42,15 @@ app.use((req, res, next) => {
 
 // Load log in routes
 const authRoutes = require('./routes/auth');
-app.use(BASE, authRoutes);
+app.use(authRoutes);
 
 // Load health records routes
 const recordRoutes = require('./routes/records');
-app.use(BASE, recordRoutes);
+app.use(recordRoutes);
 
 // Load vision board routes (writing and viewing the user's health vision)
 const visionRoutes = require('./routes/vision');
-app.use(BASE, visionRoutes);
+app.use(visionRoutes);
 
 // view engine setup:
 app.set('view engine', 'ejs');
@@ -62,7 +59,7 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 // These are the routes for our web application. home page and about page.
-app.get(BASE + '/', async (req, res) => {
+app.get('/', async (req, res) => {
     try {
         // If the user is not logged in, we just show the normal home page without profile details.
         if (!req.session.userId) {
@@ -87,7 +84,7 @@ app.get(BASE + '/', async (req, res) => {
     }
 });
 
-app.get(BASE + '/about', (req, res) => {
+app.get('/about', (req, res) => {
     res.render('about');
 });
 

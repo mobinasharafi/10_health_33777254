@@ -20,16 +20,16 @@ function classifyBMI(bmi) {
 }
 
 // Registration success page (simple confirmation)
-router.get('/usr/455/registered', (req, res) => {
+router.get('/registered', (req, res) => {
     res.render('registered');
 });
 
 // Profile page (GET request): shows the form filled with the user's current information
-router.get('/usr/455/profile', async (req, res) => {
+router.get('/profile', async (req, res) => {
     try {
         // If the user is not logged in, send them to login page
         if (!req.session.userId) {
-            return res.redirect('/usr/455/login');
+            return res.redirect('/login');
         }
 
         // Load the user's current data from the database (including BMI category)
@@ -40,7 +40,7 @@ router.get('/usr/455/profile', async (req, res) => {
 
         // If no user found, go back home
         if (rows.length === 0) {
-            return res.redirect('/usr/455/');
+            return res.redirect('/');
         }
 
         const user = rows[0];
@@ -55,11 +55,11 @@ router.get('/usr/455/profile', async (req, res) => {
 });
 
 // Handle profile update (POST request)
-router.post('/usr/455/profile', async (req, res) => {
+router.post('/profile', async (req, res) => {
     try {
         // If user not logged in, redirect to login
         if (!req.session.userId) {
-            return res.redirect('/usr/455/login');
+            return res.redirect('/login');
         }
 
         // Take form values from the submitted profile form
@@ -114,7 +114,7 @@ router.post('/usr/455/profile', async (req, res) => {
         // Show a success message after saving
         req.session.success = "Profile updated successfully.";
 
-        return res.redirect('/usr/455/profile');
+        return res.redirect('/profile');
 
     } catch (error) {
         console.error(error);
@@ -123,12 +123,12 @@ router.post('/usr/455/profile', async (req, res) => {
 });
 
 // Registration page (GET request)
-router.get('/usr/455/register', (req, res) => {
+router.get('/register', (req, res) => {
     res.render('register');
 });
 
 // Handle registration form (POST request)
-router.post('/usr/455/register', async (req, res) => {
+router.post('/register', async (req, res) => {
     const {
         username,
         password,
@@ -145,15 +145,15 @@ router.post('/usr/455/register', async (req, res) => {
         // Basic password validation so users cannot register weak passwords
         if (password.length < 8) {
             req.session.error = "Password must be at least 8 characters long.";
-            return res.redirect('/usr/455/register');
+            return res.redirect('/register');
         }
         if (!/[0-9]/.test(password)) {
             req.session.error = "Password must contain at least one number.";
-            return res.redirect('/usr/455/register');
+            return res.redirect('/register');
         }
         if (!/[A-Za-z]/.test(password)) {
             req.session.error = "Password must contain at least one letter.";
-            return res.redirect('/usr/455/register');
+            return res.redirect('/register');
         }
 
         // Convert numeric inputs
@@ -164,15 +164,15 @@ router.post('/usr/455/register', async (req, res) => {
         // Basic sanity checks for age, height and weight
         if (!ageNum || ageNum < 1 || ageNum > 120) {
             req.session.error = "Please enter a valid age.";
-            return res.redirect('/usr/455/register');
+            return res.redirect('/register');
         }
         if (!heightNum || heightNum < 50 || heightNum > 250) {
             req.session.error = "Please enter a realistic height in cm.";
-            return res.redirect('/usr/455/register');
+            return res.redirect('/register');
         }
         if (!weightNum || weightNum < 20 || weightNum > 300) {
             req.session.error = "Please enter a realistic weight in kg.";
-            return res.redirect('/usr/455/register');
+            return res.redirect('/register');
         }
 
         // Decide on the final goal string
@@ -200,7 +200,7 @@ router.post('/usr/455/register', async (req, res) => {
 
         if (user.length > 0) {
             req.session.error = "This username is already taken.";
-            return res.redirect('/usr/455/register');
+            return res.redirect('/register');
         }
 
         // Turn the password into a secure hash
@@ -224,7 +224,7 @@ router.post('/usr/455/register', async (req, res) => {
         );
 
         // Instead of logging them in automatically, show a welcome page
-        res.redirect('/usr/455/registered');
+        res.redirect('/registered');
 
     } catch (error) {
         console.error(error);
@@ -233,12 +233,12 @@ router.post('/usr/455/register', async (req, res) => {
 });
 
 // Login page (GET request)
-router.get('/usr/455/login', (req, res) => {
+router.get('/login', (req, res) => {
     res.render('login');
 });
 
 // Handle login form (POST request)
-router.post('/usr/455/login', async (req, res) => {
+router.post('/login', async (req, res) => {
     const { username, password } = req.body;
 
     try {
@@ -251,7 +251,7 @@ router.post('/usr/455/login', async (req, res) => {
         // If no user exists, show an error message
         if (rows.length === 0) {
             req.session.error = "Username or password is incorrect.";
-            return res.redirect('/usr/455/login');
+            return res.redirect('/login');
         }
 
         const user = rows[0];
@@ -262,14 +262,14 @@ router.post('/usr/455/login', async (req, res) => {
         // If it does not match, show an error message
         if (!isMatch) {
             req.session.error = "Username or password is incorrect.";
-            return res.redirect('/usr/455/login');
+            return res.redirect('/login');
         }
 
         // Login successful, store in the session
         req.session.userId = user.id;
 
         // Go to home page
-        res.redirect('/usr/455/');
+        res.redirect('/');
 
     } catch (error) {
         console.error(error);
@@ -278,9 +278,9 @@ router.post('/usr/455/login', async (req, res) => {
 });
 
 // Logout route (GET request)
-router.get('/usr/455/logout', (req, res) => {
+router.get('/logout', (req, res) => {
     req.session.destroy(() => {
-        res.redirect('/usr/455/login');
+        res.redirect('/login');
     });
 });
 
