@@ -12,7 +12,7 @@
         <% session.error = null; %>
     <% } %>
 
-    <form action="/register" method="POST">
+    <form action="register" method="POST">
         <label>First name:</label>
         <input type="text" name="first_name" required>
 
@@ -37,7 +37,6 @@
             <option value="Other">Other</option>
         </select>
 
-        <!-- Only shown when "Other" is selected -->
         <label id="goal-other-label" style="display:none;">If you chose "Other", describe your goal:</label>
         <input 
             type="text" 
@@ -56,10 +55,9 @@
         <button type="submit">Register</button>
     </form>
 
-    <a href="/login">Already have an account? Login</a>
+    <a href="login">Already have an account? Login</a>
 
     <script>
-        // if "Other" is selected instead, bring focus to the custom goal input
         const goalSelect = document.getElementById('goal-select');
         const goalOtherInput = document.getElementById('goal-other-input');
         const goalOtherLabel = document.getElementById('goal-other-label');
@@ -79,4 +77,4 @@
         goalSelect.addEventListener('change', toggleOtherField);
     </script>
 </body>
-</html
+</html>
