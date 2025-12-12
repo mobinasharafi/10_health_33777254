@@ -107,12 +107,24 @@
 
 <div class="vision-container">
 
-    <!-- Vision display + edit form (inline on same page) -->
-    <form action="/vision/update" method="POST">
-        <label for="vision_text">Your vision for your health journey:</label>
-        <textarea name="vision_text" id="vision_text" required><%= visionText || "" %></textarea>
-        <button type="submit" style="margin-top: 8px;">Save Vision</button>
-    </form>
+    <% if (visionText && visionText.trim() !== "") { %>
+
+        <p class="saved-vision"><%= visionText %></p>
+
+        <form action="/vision/edit" method="GET" class="edit-form">
+            <button class="edit-btn" type="submit">Edit Vision</button>
+        </form>
+
+    <% } else { %>
+
+        <form action="/vision" method="POST" style="margin-bottom: 10px;">
+            <label>Tell us about your vision for your health journey:</label>
+            <textarea name="vision_text" required></textarea>
+            <br>
+            <button type="submit">Save Vision</button>
+        </form>
+
+    <% } %>
 
     <h2>Add an image to your vision board</h2>
 
@@ -163,4 +175,3 @@
 
 </body>
 </html>
-
