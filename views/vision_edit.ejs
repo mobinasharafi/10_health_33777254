@@ -2,29 +2,51 @@
 <html>
 <head>
     <title>Edit Vision</title>
-    <% const BASE = '/usr/455'; %>
-    <link rel="stylesheet" href="<%= BASE %>/css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
+
+    <style>
+        .edit-container {
+            max-width: 700px;
+            margin: auto;
+        }
+
+        textarea {
+            width: 100%;
+            height: 140px;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+
+        .save-btn {
+            margin-top: 15px;
+        }
+    </style>
 </head>
 <body>
 
 <nav>
-    <a href="<%= BASE %>/">Home</a>
-    <a href="<%= BASE %>/about">About</a>
-    <a href="<%= BASE %>/records">View My Records</a>
-    <a href="<%= BASE %>/profile">Profile</a>
-    <a href="<%= BASE %>/vision">Vision Board</a>
-    <a href="<%= BASE %>/logout">Logout</a>
+    <a href="/">Home</a>
+    <a href="/about">About</a>
+    <a href="/records">View My Records</a>
+    <a href="/profile">Profile</a>
+    <a href="/vision">Vision Board</a>
+    <a href="/logout">Logout</a>
 </nav>
 
 <h1>Edit Your Vision</h1>
 
 <div class="edit-container">
-    <form action="<%= BASE %>/vision/update" method="POST">
+
+    <form action="/vision/update" method="POST">
         <label>Edit your vision text:</label>
         <textarea name="vision_text" required><%= visionText %></textarea>
+
         <button type="submit" class="save-btn">Save Changes</button>
     </form>
+
 </div>
 
 </body>
 </html>
+
