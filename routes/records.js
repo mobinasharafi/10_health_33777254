@@ -14,30 +14,19 @@ router.get('/records', async (req, res) => {
             return res.redirect('login');
         }
 
-        // Determine sorting method chosen by the user
-        // Default: newest first
         const sortOption = req.query.sort || "date_desc";
+        let orderBy = "created_at DESC";
 
-        // SQL ORDER BY logic depending on selection
-        let orderBy = "created_at DESC"; // default
+        if (sortOption === "date_asc") orderBy = "created_at ASC";
+        else if (sortOption === "duration") orderBy = "duration DESC";
+        else if (sortOption === "calories") orderBy = "calories_burnt DESC";
+        else if (sortOption === "activity") orderBy = "activity ASC";
 
-        if (sortOption === "date_asc") {
-            orderBy = "created_at ASC";
-        } else if (sortOption === "duration") {
-            orderBy = "duration DESC";
-        } else if (sortOption === "calories") {
-            orderBy = "calories_burnt DESC";
-        } else if (sortOption === "activity") {
-            orderBy = "activity ASC";
-        }
-
-        // Select all records that belong to the logged-in user, sorted properly
         const [rows] = await db.query(
             `SELECT * FROM records WHERE user_id = ? ORDER BY ${orderBy}`,
             [req.session.userId]
         );
 
-        // Show the page, include the sorting option so EJS can highlight the active choice
         res.render('records', { records: rows, sort: sortOption });
 
     } catch (error) {
@@ -63,10 +52,8 @@ router.post('/records/add', async (req, res) => {
             return res.redirect('login');
         }
 
-        // Read the values from the form given by the user
         const { activity, duration, calories_burnt, intensity } = req.body;
 
-        // Insert a new record into the database
         await db.query(
             "INSERT INTO records (user_id, activity, duration, calories_burnt, intensity, created_at) VALUES (?, ?, ?, ?, ?, NOW())",
             [
@@ -78,7 +65,7 @@ router.post('/records/add', async (req, res) => {
             ]
         );
 
-        // Redirect back to records list without leaving the VM base path
+        // Redirect back to records list the same way profile does
         res.redirect('records');
 
     } catch (error) {
@@ -97,19 +84,16 @@ router.get('/records/edit/:id', async (req, res) => {
 
         const recordId = req.params.id;
 
-        // Find the specific record in our database
         const [rows] = await db.query(
             "SELECT * FROM records WHERE id = ? AND user_id = ?",
             [recordId, req.session.userId]
         );
 
-        // If no record found, redirect to records list
         if (rows.length === 0) {
             return res.redirect('../records');
         }
 
-        const record = rows[0];
-        res.render('edit_record', { record });
+        res.render('edit_record', { record: rows[0] });
 
     } catch (error) {
         console.error(error);
@@ -118,14 +102,13 @@ router.get('/records/edit/:id', async (req, res) => {
 });
 
 
-// Handle saving the edited record (PUT)
+// Handle saving the edited record
 router.put('/records/edit/:id', async (req, res) => {
     try {
         if (!req.session.userId) {
             return res.redirect('login');
         }
 
-        const recordId = req.params.id;
         const { activity, duration, calories_burnt, intensity } = req.body;
 
         await db.query(
@@ -135,12 +118,11 @@ router.put('/records/edit/:id', async (req, res) => {
                 duration,
                 calories_burnt || null,
                 intensity || null,
-                recordId,
+                req.params.id,
                 req.session.userId
             ]
         );
 
-        // Redirect back to records list without leaving the VM base path
         res.redirect('../records');
 
     } catch (error) {
@@ -157,14 +139,11 @@ router.delete('/records/delete/:id', async (req, res) => {
             return res.redirect('login');
         }
 
-        const recordId = req.params.id;
-
         await db.query(
             "DELETE FROM records WHERE id = ? AND user_id = ?",
-            [recordId, req.session.userId]
+            [req.params.id, req.session.userId]
         );
 
-        // Redirect back to records list without leaving the VM base path
         res.redirect('../records');
 
     } catch (error) {
