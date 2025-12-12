@@ -2,103 +2,92 @@
 <html>
 <head>
     <title>Your Personal Health Records</title>
-    <link rel="stylesheet" href="/css/style.css">
+    <% const BASE = '/usr/455'; %>
+    <link rel="stylesheet" href="<%= BASE %>/css/style.css">
 </head>
 <body>
-    <!-- Navigating based on user session status --> 
- <nav>
-    <a href="/">Home</a>
-    <a href="/about">About</a>
+
+<!-- Navigating based on user session status -->
+<nav>
+    <a href="<%= BASE %>/">Home</a>
+    <a href="<%= BASE %>/about">About</a>
+
     <% if (session && session.userId) { %>
-        <a href="/records">View My Records</a>
-        <a href="/profile">Profile</a>
-        <a href="/vision">Vision Board</a>
-        <a href="/logout">Logout</a>
+        <a href="<%= BASE %>/records">View My Records</a>
+        <a href="<%= BASE %>/profile">Profile</a>
+        <a href="<%= BASE %>/vision">Vision Board</a>
+        <a href="<%= BASE %>/logout">Logout</a>
     <% } else { %>
-        <a href="/login">Login</a>
-        <a href="/register">Register</a>
+        <a href="<%= BASE %>/login">Login</a>
+        <a href="<%= BASE %>/register">Register</a>
     <% } %>
- </nav>
+</nav>
 
+<h1>Your Personal Health Records</h1>
 
-    <h1>Your Personal Health Records</h1>
+<a href="<%= BASE %>/records/add">Add New Record</a>
+<br><br>
 
-    <a href="/records/add">Add New Record</a>
-    <br><br>
+<!-- Search bar -->
+<form action="<%= BASE %>/records/search" method="GET">
+    <input type="text" name="q" placeholder="Search activity..." required>
+    <button type="submit">Search</button>
+</form>
 
-    <!-- Search bar -->
-    <form action="/records/search" method="GET">
-        <input type="text" name="q" placeholder="Search activity..." required>
-        <button type="submit">Search</button>
-    </form>
+<br>
 
-    <br>
+<!-- Sorting dropdown -->
+<form action="<%= BASE %>/records" method="GET">
+    <label>Sort by:</label>
+    <select name="sort">
+        <option value="date_desc">Newest first</option>
+        <option value="date_asc">Oldest first</option>
+        <option value="duration">Duration</option>
+        <option value="calories">Calories burnt</option>
+        <option value="activity">Activity (A–Z)</option>
+    </select>
+    <button type="submit">Sort</button>
+</form>
 
-    <!-- Sorting dropdown -->
-    <form action="/records" method="GET">
-        <label>Sort by:</label>
-        <select name="sort">
-            <option value="date_desc">Newest first</option>
-            <option value="date_asc">Oldest first</option>
-            <option value="duration">Duration</option>
-            <option value="calories">Calories burnt</option>
-            <option value="activity">Activity (A–Z)</option>
-        </select>
-        <button type="submit">Sort</button>
-    </form>
+<br>
 
-    <br>
+<ul>
+    <% if (records.length === 0) { %>
+        <li>No records yet.</li>
+    <% } else { %>
+        <% records.forEach(record => { %>
+            <li>
+                <strong><%= record.activity %></strong>
+                — <%= record.duration %> minutes
 
-    <ul>
-        <% if (records.length === 0) { %>
-            <li>No records yet.</li>
-        <% } else { %>
-            <% records.forEach(record => { %>
-                <li>
-                    <!-- Activity name -->
-                    <strong><%= record.activity %></strong>
-                    —
-                    <!-- Duration (it's a required field) -->
-                    <%= record.duration %> minutes
+                <% if (record.calories_burnt !== null) { %>
+                    — <%= record.calories_burnt %> calories burnt
+                <% } else { %>
+                    — calories unknown
+                <% } %>
 
-                    <!-- Calories burnt (optional) -->
-                    <% if (record.calories_burnt !== null) { %>
-                        — <%= record.calories_burnt %> calories burnt
-                    <% } else { %>
-                        — calories unknown
-                    <% } %>
+                <% if (record.intensity !== null) { %>
+                    — Intensity: <%= record.intensity %>/5
+                <% } %>
 
-                    <!-- Intensity (optional: only shown if user entered something) -->
-                    <% if (record.intensity !== null) { %>
-                        — Intensity: <%= record.intensity %>/5
-                    <% } %>
+                <br>
+                (on <%= record.created_at.toLocaleString() %>)
 
-                    <!-- For timestamp -->
-                    <br>
-                    (on <%= record.created_at.toLocaleString() %>)
+                <br>
+                <a href="<%= BASE %>/records/edit/<%= record.id %>">Edit</a>
+                &nbsp;
 
-                    <!-- Optimal added feature: Edit Health Records 
-                         Updating existing health records is a common need,
-                         therefore I added an edit function to support full CRUD
-                         and improve usability by allowing corrections
-                         without needing to delete and recreate their data. 
-                         It uses RESTful routes, pre-filled forms,
-                         and method-override for secure updates. -->
-
-                    <!-- Edit button -->
-                    <a href="/records/edit/<%= record.id %>">Edit</a>
-                    &nbsp;
-
-                    <!-- Delete button -->
-                    <form action="/records/delete/<%= record.id %>?_method=DELETE" 
-                          method="POST" style="display:inline;">
-                        <button type="submit">Delete</button>
-                    </form>
-                </li>
-            <% }) %>
-        <% } %>
-    </ul>
+                <form
+                    action="<%= BASE %>/records/delete/<%= record.id %>?_method=DELETE"
+                    method="POST"
+                    style="display:inline;"
+                >
+                    <button type="submit">Delete</button>
+                </form>
+            </li>
+        <% }) %>
+    <% } %>
+</ul>
 
 </body>
 </html>
-
