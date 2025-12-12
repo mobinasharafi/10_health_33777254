@@ -22,8 +22,11 @@ app.use(bodyParser.json());
 // this allows us to use HTTP verbs such as PUT or DELETE in places where the client doesn't support it.
 app.use(methodOverride('_method'));
 
+// This defines the base path used by the university VM deployment
+const BASE_PATH = '/usr/455';
+
 // This line tells the app where to find static files like CSS, images, and client-side JavaScript.
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(BASE_PATH, express.static(path.join(__dirname, 'public')));
 
 // This part sets up sessions, so the app can know who the user is.
 // For example: a logged-in user stays logged in when they move between pages.
@@ -42,15 +45,15 @@ app.use((req, res, next) => {
 
 // Load log in routes
 const authRoutes = require('./routes/auth');
-app.use(authRoutes);
+app.use(BASE_PATH, authRoutes);
 
 // Load health records routes
 const recordRoutes = require('./routes/records');
-app.use(recordRoutes);
+app.use(BASE_PATH, recordRoutes);
 
 // Load vision board routes (writing and viewing the user's health vision)
 const visionRoutes = require('./routes/vision');
-app.use(visionRoutes);
+app.use(BASE_PATH, visionRoutes);
 
 // view engine setup:
 app.set('view engine', 'ejs');
@@ -59,7 +62,7 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 // These are the routes for our web application. home page and about page.
-app.get('/', async (req, res) => {
+app.get(BASE_PATH + '/', async (req, res) => {
     try {
         // If the user is not logged in, we just show the normal home page without profile details.
         if (!req.session.userId) {
@@ -84,7 +87,7 @@ app.get('/', async (req, res) => {
     }
 });
 
-app.get('/about', (req, res) => {
+app.get(BASE_PATH + '/about', (req, res) => {
     res.render('about');
 });
 
