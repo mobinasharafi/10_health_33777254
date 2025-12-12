@@ -11,22 +11,33 @@ router.get('/records', async (req, res) => {
     try {
         // If the user is not logged in, send them back to the login page
         if (!req.session.userId) {
-            return res.redirect('login');
+            return res.redirect('/login');
         }
 
+        // Determine sorting method chosen by the user
+        // Default: newest first
         const sortOption = req.query.sort || "date_desc";
-        let orderBy = "created_at DESC";
 
-        if (sortOption === "date_asc") orderBy = "created_at ASC";
-        else if (sortOption === "duration") orderBy = "duration DESC";
-        else if (sortOption === "calories") orderBy = "calories_burnt DESC";
-        else if (sortOption === "activity") orderBy = "activity ASC";
+        // SQL ORDER BY logic depending on selection
+        let orderBy = "created_at DESC"; // default
 
+        if (sortOption === "date_asc") {
+            orderBy = "created_at ASC";
+        } else if (sortOption === "duration") {
+            orderBy = "duration DESC";
+        } else if (sortOption === "calories") {
+            orderBy = "calories_burnt DESC";
+        } else if (sortOption === "activity") {
+            orderBy = "activity ASC";
+        }
+
+        // Select all records that belong to the logged-in user, sorted properly
         const [rows] = await db.query(
             `SELECT * FROM records WHERE user_id = ? ORDER BY ${orderBy}`,
             [req.session.userId]
         );
 
+        // Show the page, include the sorting option so EJS can highlight the active choice
         res.render('records', { records: rows, sort: sortOption });
 
     } catch (error) {
@@ -39,7 +50,7 @@ router.get('/records', async (req, res) => {
 // Showing the "Add Record" form
 router.get('/records/add', (req, res) => {
     if (!req.session.userId) {
-        return res.redirect('login');
+        return res.redirect('/login');
     }
     res.render('add_record');
 });
@@ -49,11 +60,13 @@ router.get('/records/add', (req, res) => {
 router.post('/records/add', async (req, res) => {
     try {
         if (!req.session.userId) {
-            return res.redirect('login');
+            return res.redirect('/login');
         }
 
+        // Read the values from the form given by the user
         const { activity, duration, calories_burnt, intensity } = req.body;
 
+        // Insert a new record into the database
         await db.query(
             "INSERT INTO records (user_id, activity, duration, calories_burnt, intensity, created_at) VALUES (?, ?, ?, ?, ?, NOW())",
             [
@@ -65,8 +78,7 @@ router.post('/records/add', async (req, res) => {
             ]
         );
 
-        // Redirect back to records list the same way profile does
-        res.redirect('records');
+        res.redirect('/records');
 
     } catch (error) {
         console.error(error);
@@ -79,21 +91,24 @@ router.post('/records/add', async (req, res) => {
 router.get('/records/edit/:id', async (req, res) => {
     try {
         if (!req.session.userId) {
-            return res.redirect('login');
+            return res.redirect('/login');
         }
 
         const recordId = req.params.id;
 
+        // Find the specific record in our database
         const [rows] = await db.query(
             "SELECT * FROM records WHERE id = ? AND user_id = ?",
             [recordId, req.session.userId]
         );
 
+        // If no record found, redirect to records list
         if (rows.length === 0) {
-            return res.redirect('../records');
+            return res.redirect('/records');
         }
 
-        res.render('edit_record', { record: rows[0] });
+        const record = rows[0];
+        res.render('edit_record', { record });
 
     } catch (error) {
         console.error(error);
@@ -102,13 +117,14 @@ router.get('/records/edit/:id', async (req, res) => {
 });
 
 
-// Handle saving the edited record
+// Handle saving the edited record (PUT)
 router.put('/records/edit/:id', async (req, res) => {
     try {
         if (!req.session.userId) {
-            return res.redirect('login');
+            return res.redirect('/login');
         }
 
+        const recordId = req.params.id;
         const { activity, duration, calories_burnt, intensity } = req.body;
 
         await db.query(
@@ -118,12 +134,35 @@ router.put('/records/edit/:id', async (req, res) => {
                 duration,
                 calories_burnt || null,
                 intensity || null,
-                req.params.id,
+                recordId,
                 req.session.userId
             ]
         );
 
-        res.redirect('../records');
+        res.redirect('/records');
+
+    } catch (error) {
+        console.error(error);
+        res.send("Something went wrong");
+    }
+});
+
+
+// Search for health records
+router.get('/records/search', async (req, res) => {
+    try {
+        if (!req.session.userId) {
+            return res.redirect('/login');
+        }
+
+        const searchTerm = req.query.q;
+
+        const [rows] = await db.query(
+            "SELECT * FROM records WHERE user_id = ? AND activity LIKE CONCAT('%', ?, '%') ORDER BY created_at DESC",
+            [req.session.userId, searchTerm]
+        );
+
+        res.render('records', { records: rows, sort: "date_desc" });
 
     } catch (error) {
         console.error(error);
@@ -136,20 +175,39 @@ router.put('/records/edit/:id', async (req, res) => {
 router.delete('/records/delete/:id', async (req, res) => {
     try {
         if (!req.session.userId) {
-            return res.redirect('login');
+            return res.redirect('/login');
         }
+
+        const recordId = req.params.id;
 
         await db.query(
             "DELETE FROM records WHERE id = ? AND user_id = ?",
-            [req.params.id, req.session.userId]
+            [recordId, req.session.userId]
         );
 
-        res.redirect('../records');
+        res.redirect('/records');
 
     } catch (error) {
         console.error(error);
         res.send("Something went wrong");
     }
 });
+
+
+// Suggest activities for autocomplete
+router.get('/records/suggest', async (req, res) => {
+    if (!req.session.userId) return res.json([]);
+
+    const q = req.query.q || '';
+    if (q.length < 1) return res.json([]);
+
+    const [rows] = await db.query(
+        "SELECT DISTINCT activity FROM records WHERE user_id = ? AND activity LIKE CONCAT('%', ?, '%') LIMIT 5",
+        [req.session.userId, q]
+    );
+
+    res.json(rows.map(r => r.activity));
+});
+
 
 module.exports = router;

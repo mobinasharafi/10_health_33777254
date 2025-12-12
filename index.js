@@ -22,9 +22,6 @@ app.use(bodyParser.json());
 // this allows us to use HTTP verbs such as PUT or DELETE in places where the client doesn't support it.
 app.use(methodOverride('_method'));
 
-// This makes the deployment base path available in all EJS views (required for university VM)
-app.locals.basePath = '/usr/455';
-
 // This line tells the app where to find static files like CSS, images, and client-side JavaScript.
 app.use(express.static(path.join(__dirname, 'public')));
 
