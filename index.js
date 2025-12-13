@@ -46,6 +46,10 @@ app.set('view engine', 'ejs');
 // define where the template files are located:
 app.set('views', path.join(__dirname, 'views'));
 
+// This line tells the app where to find static files like CSS, images, and client-side JavaScript.
+// It is placed before the routes so direct URL access (e.g. /wellness) works correctly.
+app.use(express.static(path.join(__dirname, 'public')));
+
 // Load log in routes
 const authRoutes = require('./routes/auth');
 app.use(authRoutes);
@@ -99,9 +103,6 @@ app.get('/', async (req, res) => {
 app.get('/about', (req, res) => {
     res.render('about');
 });
-
-// This line tells the app where to find static files like CSS, images, and client-side JavaScript.
-app.use(express.static(path.join(__dirname, 'public')));
 
 // Start the web server and listen on the specified port.
 app.listen(PORT, () => {
