@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Edit Vision</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
 
     <style>
         .edit-container {
@@ -26,20 +26,19 @@
 <body>
 
 <nav>
-    <a href="">Home</a>
-    <a href="about">About</a>
-    <a href="records">View My Records</a>
-    <a href="profile">Profile</a>
-    <a href="vision">Vision Board</a>
-    <a href="logout">Logout</a>
+    <a href="/">Home</a>
+    <a href="/about">About</a>
+    <a href="/records">View My Records</a>
+    <a href="/profile">Profile</a>
+    <a href="/vision">Vision Board</a>
+    <a href="/logout">Logout</a>
 </nav>
 
 <h1>Edit Your Vision</h1>
 
 <div class="edit-container">
 
-    <!-- Submitting from /vision/edit, so using a relative path here avoids duplicating /vision -->
-    <form action="../vision/update" method="POST">
+    <form action="update" method="POST">
         <label>Edit your vision text:</label>
         <textarea name="vision_text" required><%= visionText %></textarea>
 
@@ -47,7 +46,7 @@
     </form>
 
 </div>
-
 </body>
 </html>
+
 
