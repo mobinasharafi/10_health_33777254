@@ -106,7 +106,7 @@ router.post('/diet/add-food', async (req, res) => {
             ]
         );
 
-        res.redirect('usr/455/diet');
+        res.redirect('/diet');
 
     } catch (error) {
         console.error(error);
@@ -131,7 +131,7 @@ router.post('/diet/add-hydration', async (req, res) => {
             ]
         );
 
-        res.redirect('usr/455/diet');
+        res.redirect('/diet');
 
     } catch (error) {
         console.error(error);
@@ -149,7 +149,7 @@ router.delete('/diet/delete-food/:id', async (req, res) => {
             [req.params.id, req.session.userId]
         );
 
-        res.redirect('usr/455/diet');
+        res.redirect('/diet');
 
     } catch (error) {
         console.error(error);
@@ -167,7 +167,7 @@ router.delete('/diet/delete-hydration/:id', async (req, res) => {
             [req.params.id, req.session.userId]
         );
 
-        res.redirect('usr/455/diet');
+        res.redirect('/diet');
 
     } catch (error) {
         console.error(error);
