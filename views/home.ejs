@@ -14,7 +14,6 @@
         <a href="/records">View My Records</a>
         <a href="/profile">Profile</a>
         <a href="/vision">Vision Board</a>
-        <a href="/wellness" class="wellness-btn">Quick Wellness Check</a>
         <a href="/logout">Logout</a>
     <% } else { %>
         <a href="/login">Login</a>
@@ -35,6 +34,17 @@
     and intentions that reflect the life you are working toward. It serves as a small reminder of 
     what inspires you and the direction you want to grow in.
 </p>
+
+<% if (showWellness) { %>
+    <div class="section" style="margin: 40px 0; border: 1px solid #ccc; padding: 20px; border-radius: 8px;">
+        <h2>Try a Quick Wellness Check</h2>
+        <p>
+            Estimate vitamin, hydration, or sleep issues in under a minute using our wellness questionnaire.
+            It's completely private and free to use.
+        </p>
+        <a href="/wellness" class="button">Start Wellness Check</a>
+    </div>
+<% } %>
 
 <div style="display:flex; gap:20px; margin-top:20px;">
     <img src="/images/health1.jpg" alt="Health image 1" style="width:45%; height:auto; border-radius:8px;">

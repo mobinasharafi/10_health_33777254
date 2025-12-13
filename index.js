@@ -65,8 +65,14 @@ app.use(visionRoutes);
 // These are the routes for our web application. home page and about page.
 app.get('/', async (req, res) => {
     try {
-        if (!req.session.userId) {
-            return res.render('home', { user: null });
+        const loggedIn = !!req.session.userId;
+
+        if (!loggedIn) {
+            // user not logged in → show wellness check
+            return res.render('home', {
+                user: null,
+                showWellness: true
+            });
         }
 
         const [rows] = await db.query(
@@ -75,11 +81,18 @@ app.get('/', async (req, res) => {
         );
 
         const user = rows.length > 0 ? rows[0] : null;
-        res.render('home', { user });
+
+        res.render('home', {
+            user,
+            showWellness: false
+        });
 
     } catch (error) {
         console.error(error);
-        res.render('home', { user: null });
+        res.render('home', {
+            user: null,
+            showWellness: false
+        });
     }
 });
 

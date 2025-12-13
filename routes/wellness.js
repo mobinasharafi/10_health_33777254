@@ -24,8 +24,10 @@ function isComplete(reqBody, keys) {
 
 // wellness check form route
 router.get('/wellness', (req, res) => {
-    if (!req.session.userId) {
-        return res.redirect('/login');
+
+    // Logged-in users should not access the public wellness check
+    if (req.session.userId) {
+        return res.redirect('/');
     }
 
     res.render('wellness', {
@@ -41,8 +43,10 @@ router.get('/wellness', (req, res) => {
 
 // Form submission handler
 router.post('/wellness', (req, res) => {
-    if (!req.session.userId) {
-        return res.redirect('/login');
+
+    // Logged-in users should not submit the public wellness check
+    if (req.session.userId) {
+        return res.redirect('/');
     }
 
     const v = (name) => Number(req.body[name] ?? 0);
