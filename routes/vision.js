@@ -113,7 +113,7 @@ router.post('/vision/update', async (req, res) => {
             [vision_text, req.session.userId]
         );
 
-        res.redirect('../vision');
+        res.redirect('back');
 
     } catch (error) {
         console.error(error);
