@@ -1,10 +1,10 @@
-// Quick Wellness Check
+// This file contains all routes related to the Quick Wellness Check feature.
+// It allows the user to complete short questionnaires and view likelihood results.
 // Likelihood estimates only. Not medical advice.
-console.log('WELLNESS ROUTES LOADED');
-
 const express = require('express');
 const router = express.Router();
 
+// Helper functions
 function clampPercent(n) {
     if (n < 0) return 0;
     if (n > 100) return 100;
@@ -18,10 +18,16 @@ function calcPercent(values) {
 }
 
 function isComplete(reqBody, keys) {
-    return keys.every(k => reqBody[k] !== undefined && reqBody[k] !== null && reqBody[k] !== "");
+    return keys.every(k => reqBody[k] !== undefined && reqBody[k] !== "");
 }
 
-function renderWellness(req, res) {
+
+// wellness check form route
+router.get('/wellness', (req, res) => {
+    if (!req.session.userId) {
+        return res.redirect('/login');
+    }
+
     res.render('wellness', {
         answers: {},
         results: null,
@@ -30,22 +36,10 @@ function renderWellness(req, res) {
         overallComplete: false,
         session: req.session
     });
-}
-
-router.get('/wellness', (req, res) => {
-    if (!req.session.userId) {
-        return res.redirect('/login');
-    }
-    renderWellness(req, res);
 });
 
-router.get('/wellness/', (req, res) => {
-    if (!req.session.userId) {
-        return res.redirect('/login');
-    }
-    renderWellness(req, res);
-});
 
+// Form submission handler
 router.post('/wellness', (req, res) => {
     if (!req.session.userId) {
         return res.redirect('/login');
@@ -67,7 +61,7 @@ router.post('/wellness', (req, res) => {
         immune: ['imm1', 'imm2', 'imm3', 'imm4', 'imm5']
     };
 
-    // Track if each questionnaire was fully answered
+    // Track completion per section
     const completion = {};
     Object.keys(sections).forEach(key => {
         completion[key] = isComplete(req.body, sections[key]);
@@ -75,18 +69,18 @@ router.post('/wellness', (req, res) => {
 
     const overallComplete = Object.values(completion).every(Boolean);
 
-    // Only compute a percent if that section is complete, otherwise return null
+    // Calculate results only if complete
     const results = {
-        iron: completion.iron ? calcPercent(sections.iron.map(k => v(k))) : null,
-        vitd: completion.vitd ? calcPercent(sections.vitd.map(k => v(k))) : null,
-        b12: completion.b12 ? calcPercent(sections.b12.map(k => v(k))) : null,
-        dehydration: completion.dehydration ? calcPercent(sections.dehydration.map(k => v(k))) : null,
-        sleep: completion.sleep ? calcPercent(sections.sleep.map(k => v(k))) : null,
-        stress: completion.stress ? calcPercent(sections.stress.map(k => v(k))) : null,
-        magnesium: completion.magnesium ? calcPercent(sections.magnesium.map(k => v(k))) : null,
-        thyroid: completion.thyroid ? calcPercent(sections.thyroid.map(k => v(k))) : null,
-        sugar: completion.sugar ? calcPercent(sections.sugar.map(k => v(k))) : null,
-        immune: completion.immune ? calcPercent(sections.immune.map(k => v(k))) : null
+        iron: completion.iron ? calcPercent(sections.iron.map(v)) : null,
+        vitd: completion.vitd ? calcPercent(sections.vitd.map(v)) : null,
+        b12: completion.b12 ? calcPercent(sections.b12.map(v)) : null,
+        dehydration: completion.dehydration ? calcPercent(sections.dehydration.map(v)) : null,
+        sleep: completion.sleep ? calcPercent(sections.sleep.map(v)) : null,
+        stress: completion.stress ? calcPercent(sections.stress.map(v)) : null,
+        magnesium: completion.magnesium ? calcPercent(sections.magnesium.map(v)) : null,
+        thyroid: completion.thyroid ? calcPercent(sections.thyroid.map(v)) : null,
+        sugar: completion.sugar ? calcPercent(sections.sugar.map(v)) : null,
+        immune: completion.immune ? calcPercent(sections.immune.map(v)) : null
     };
 
     const singleResult =
