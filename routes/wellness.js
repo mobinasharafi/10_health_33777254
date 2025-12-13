@@ -1,5 +1,6 @@
 // Quick Wellness Check
 // Likelihood estimates only. Not medical advice.
+console.log('WELLNESS ROUTES LOADED');
 
 const express = require('express');
 const router = express.Router();
