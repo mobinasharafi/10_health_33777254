@@ -34,21 +34,21 @@ function renderWellness(req, res) {
 
 router.get('/wellness', (req, res) => {
     if (!req.session.userId) {
-        return res.redirect('/usr/455/login');
+        return res.redirect('/login');
     }
     renderWellness(req, res);
 });
 
 router.get('/wellness/', (req, res) => {
     if (!req.session.userId) {
-        return res.redirect('/usr/455/login');
+        return res.redirect('/login');
     }
     renderWellness(req, res);
 });
 
 router.post('/wellness', (req, res) => {
     if (!req.session.userId) {
-        return res.redirect('/usr/455/login');
+        return res.redirect('/login');
     }
 
     const v = (name) => Number(req.body[name] ?? 0);
