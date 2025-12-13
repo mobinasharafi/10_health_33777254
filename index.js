@@ -55,10 +55,6 @@ app.use(BASE_PATH, recordRoutes);
 const visionRoutes = require('./routes/vision');
 app.use(BASE_PATH, visionRoutes);
 
-// Load diet routes (food tracking + hydration tracking)
-const dietRoutes = require('./routes/diet');
-app.use(BASE_PATH, dietRoutes);
-
 // view engine setup:
 app.set('view engine', 'ejs');
 
