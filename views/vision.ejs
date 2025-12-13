@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Your Vision Board</title>
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="css/style.css">
 
     <style>
         .vision-container {
@@ -89,17 +89,17 @@
 <body>
 
 <nav>
-    <a href="/">Home</a>
-    <a href="/about">About</a>
+    <a href="">Home</a>
+    <a href="about">About</a>
 
     <% if (session && session.userId) { %>
-        <a href="/records">View My Records</a>
-        <a href="/profile">Profile</a>
-        <a href="/vision">Vision Board</a>
-        <a href="/logout">Logout</a>
+        <a href="records">View My Records</a>
+        <a href="profile">Profile</a>
+        <a href="vision">Vision Board</a>
+        <a href="logout">Logout</a>
     <% } else { %>
-        <a href="/login">Login</a>
-        <a href="/register">Register</a>
+        <a href="login">Login</a>
+        <a href="register">Register</a>
     <% } %>
 </nav>
 
@@ -111,13 +111,13 @@
 
         <p class="saved-vision"><%= visionText %></p>
 
-        <form action="/vision/edit" method="GET" class="edit-form">
+        <form action="vision/edit" method="GET" class="edit-form">
             <button class="edit-btn" type="submit">Edit Vision</button>
         </form>
 
     <% } else { %>
 
-        <form action="/vision" method="POST" style="margin-bottom: 10px;">
+        <form action="vision" method="POST" style="margin-bottom: 10px;">
             <label>Tell us about your vision for your health journey:</label>
             <textarea name="vision_text" required></textarea>
             <br>
@@ -128,7 +128,7 @@
 
     <h2>Add an image to your vision board</h2>
 
-    <form action="/vision/upload" method="POST" enctype="multipart/form-data" style="margin-bottom: 8px;">
+    <form action="vision/upload" method="POST" enctype="multipart/form-data" style="margin-bottom: 8px;">
         <input type="file" name="vision_image" accept="image/*" required>
         <button type="submit">Upload</button>
     </form>
@@ -141,10 +141,10 @@
         <div class="image-grid">
             <% images.forEach(img => { %>
                 <div class="image-wrapper">
-                    <img src="/uploads/<%= img.filename %>" alt="Vision Image">
+                    <img src="uploads/<%= img.filename %>" alt="Vision Image">
 
                     <form 
-                        action="/vision/delete-image/<%= img.id %>?_method=DELETE" 
+                        action="vision/delete-image/<%= img.id %>?_method=DELETE" 
                         method="POST"
                         onsubmit="return confirmDelete(event)"
                     >

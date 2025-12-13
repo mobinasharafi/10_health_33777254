@@ -29,7 +29,7 @@ const upload = multer({ storage: storage, fileFilter: fileFilter });
 
 // Display vision board
 router.get('/vision', async (req, res) => {
-    if (!req.session.userId) return res.redirect('/login');
+    if (!req.session.userId) return res.redirect('login');
 
     try {
         const [visionRows] = await db.query(
@@ -58,7 +58,7 @@ router.get('/vision', async (req, res) => {
 
 // Save or update vision text
 router.post('/vision', async (req, res) => {
-    if (!req.session.userId) return res.redirect('/login');
+    if (!req.session.userId) return res.redirect('login');
 
     const { vision_text } = req.body;
 
@@ -80,7 +80,7 @@ router.post('/vision', async (req, res) => {
             );
         }
 
-        res.redirect('/vision');
+        res.redirect('vision');
     } catch (error) {
         console.error(error);
         res.send("Something went wrong while saving the vision.");
@@ -89,7 +89,7 @@ router.post('/vision', async (req, res) => {
 
 // Edit vision (shows write box again)
 router.get('/vision/edit', async (req, res) => {
-    if (!req.session.userId) return res.redirect('/login');
+    if (!req.session.userId) return res.redirect('login');
 
     const [rows] = await db.query(
         "SELECT vision_text FROM vision WHERE user_id = ?",
@@ -101,9 +101,9 @@ router.get('/vision/edit', async (req, res) => {
     res.render('vision_edit', { visionText, session: req.session });
 });
 
-// ✅ MISSING ROUTE ADDED — handles updating edited vision
+// Handles updating edited vision
 router.post('/vision/update', async (req, res) => {
-    if (!req.session.userId) return res.redirect('/login');
+    if (!req.session.userId) return res.redirect('login');
 
     const { vision_text } = req.body;
 
@@ -113,7 +113,7 @@ router.post('/vision/update', async (req, res) => {
             [vision_text, req.session.userId]
         );
 
-        res.redirect('/vision');
+        res.redirect('vision');
 
     } catch (error) {
         console.error(error);
@@ -123,7 +123,7 @@ router.post('/vision/update', async (req, res) => {
 
 // Handle image upload
 router.post('/vision/upload', upload.single('vision_image'), async (req, res) => {
-    if (!req.session.userId) return res.redirect('/login');
+    if (!req.session.userId) return res.redirect('login');
 
     try {
         if (!req.file) return res.send("Invalid image file.");
@@ -133,7 +133,7 @@ router.post('/vision/upload', upload.single('vision_image'), async (req, res) =>
             [req.session.userId, req.file.filename]
         );
 
-        res.redirect('/vision');
+        res.redirect('vision');
 
     } catch (error) {
         console.error(error);
@@ -143,7 +143,7 @@ router.post('/vision/upload', upload.single('vision_image'), async (req, res) =>
 
 // Delete an image from vision board
 router.delete('/vision/delete-image/:id', async (req, res) => {
-    if (!req.session.userId) return res.redirect('/login');
+    if (!req.session.userId) return res.redirect('login');
 
     try {
         await db.query(
@@ -151,7 +151,7 @@ router.delete('/vision/delete-image/:id', async (req, res) => {
             [req.params.id, req.session.userId]
         );
 
-        res.redirect('/vision');
+        res.redirect('vision');
 
     } catch (error) {
         console.error(error);
