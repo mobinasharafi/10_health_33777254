@@ -1,4 +1,4 @@
-// This line loads the values from the .env file into our project.
+// This line loads the values from the .env file into our project. 
 require('dotenv').config();
 // We import all the libraries we need for our web application.
 const express = require('express');
@@ -54,6 +54,10 @@ app.use(BASE_PATH, recordRoutes);
 // Load vision board routes (writing and viewing the user's health vision)
 const visionRoutes = require('./routes/vision');
 app.use(BASE_PATH, visionRoutes);
+
+// Load diet routes (food tracking + hydration tracking)
+const dietRoutes = require('./routes/diet');
+app.use(BASE_PATH, dietRoutes);
 
 // view engine setup:
 app.set('view engine', 'ejs');
