@@ -23,7 +23,7 @@ router.get('/diet', async (req, res) => {
             [req.session.userId]
         );
 
-        // Get hydration logs for the last 14 days (simple view)
+        // Get hydration logs
         const [hydrationRows] = await db.query(
             `SELECT id, amount_ml, logged_at
              FROM hydration_logs
@@ -33,7 +33,7 @@ router.get('/diet', async (req, res) => {
             [req.session.userId]
         );
 
-        // Calculate today's hydration total (optional nice touch)
+        // Calculate today's hydration total
         const [todayTotalRows] = await db.query(
             `SELECT COALESCE(SUM(amount_ml), 0) AS total_ml
              FROM hydration_logs
@@ -43,10 +43,34 @@ router.get('/diet', async (req, res) => {
 
         const todayHydrationTotal = todayTotalRows.length ? todayTotalRows[0].total_ml : 0;
 
+        // Calories per day (last 7 days)
+        const [calorieChartRows] = await db.query(
+            `SELECT DATE(logged_at) AS day, SUM(calories) AS total_calories
+             FROM diet_logs
+             WHERE user_id = ? AND calories IS NOT NULL
+             GROUP BY DATE(logged_at)
+             ORDER BY day DESC
+             LIMIT 7`,
+            [req.session.userId]
+        );
+
+        // Hydration per day (last 7 days)
+        const [hydrationChartRows] = await db.query(
+            `SELECT logged_at AS day, SUM(amount_ml) AS total_ml
+             FROM hydration_logs
+             WHERE user_id = ?
+             GROUP BY logged_at
+             ORDER BY day DESC
+             LIMIT 7`,
+            [req.session.userId]
+        );
+
         res.render('diet', {
             foodLogs: foodRows,
             hydrationLogs: hydrationRows,
             todayHydrationTotal,
+            calorieChartData: calorieChartRows.reverse(),
+            hydrationChartData: hydrationChartRows.reverse(),
             session: req.session
         });
 
@@ -82,8 +106,7 @@ router.post('/diet/add-food', async (req, res) => {
             ]
         );
 
-        // Redirect back to diet dashboard
-        res.redirect('/diet');
+        res.redirect('usr/455/diet');
 
     } catch (error) {
         console.error(error);
@@ -104,12 +127,11 @@ router.post('/diet/add-hydration', async (req, res) => {
             [
                 req.session.userId,
                 Number(amount_ml),
-                logged_date // expected format: YYYY-MM-DD
+                logged_date
             ]
         );
 
-        // Redirect back to diet dashboard
-        res.redirect('/diet');
+        res.redirect('usr/455/diet');
 
     } catch (error) {
         console.error(error);
@@ -127,7 +149,7 @@ router.delete('/diet/delete-food/:id', async (req, res) => {
             [req.params.id, req.session.userId]
         );
 
-        res.redirect('/diet');
+        res.redirect('usr/455/diet');
 
     } catch (error) {
         console.error(error);
@@ -145,7 +167,7 @@ router.delete('/diet/delete-hydration/:id', async (req, res) => {
             [req.params.id, req.session.userId]
         );
 
-        res.redirect('/diet');
+        res.redirect('usr/455/diet');
 
     } catch (error) {
         console.error(error);

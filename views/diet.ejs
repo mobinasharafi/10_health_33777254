@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html>
 <head>
     <title>Diet & Hydration</title>
@@ -26,9 +26,15 @@
 
 <p><strong>Today’s hydration total:</strong> <%= todayHydrationTotal %> ml</p>
 
-<a href="usr/455/diet/add">
+<a href="/usr/455/diet/add">
     <button>Add Food / Hydration</button>
 </a>
+
+<h2>Weekly Overview</h2>
+
+<canvas id="calorieChart" width="400" height="200"></canvas>
+<br>
+<canvas id="hydrationChart" width="400" height="200"></canvas>
 
 <h2>Recent Food Logs</h2>
 
@@ -69,6 +75,39 @@
         </div>
     <% }) %>
 <% } %>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    const calorieLabels = <%- JSON.stringify(calorieChartData.map(d => d.day)) %>;
+    const calorieValues = <%- JSON.stringify(calorieChartData.map(d => d.total_calories)) %>;
+
+    const hydrationLabels = <%- JSON.stringify(hydrationChartData.map(d => d.day)) %>;
+    const hydrationValues = <%- JSON.stringify(hydrationChartData.map(d => d.total_ml)) %>;
+
+    new Chart(document.getElementById('calorieChart'), {
+        type: 'line',
+        data: {
+            labels: calorieLabels,
+            datasets: [{
+                label: 'Calories per day',
+                data: calorieValues,
+                tension: 0.2
+            }]
+        }
+    });
+
+    new Chart(document.getElementById('hydrationChart'), {
+        type: 'bar',
+        data: {
+            labels: hydrationLabels,
+            datasets: [{
+                label: 'Water intake (ml)',
+                data: hydrationValues
+            }]
+        }
+    });
+</script>
 
 </body>
 </html>
