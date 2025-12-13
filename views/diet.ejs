@@ -14,7 +14,7 @@
         <a href="/records">View My Records</a>
         <a href="/profile">Profile</a>
         <a href="/vision">Vision Board</a>
-        <a href="/diet">Diet</a>
+        <a href="/usr/455/diet">Diet</a>
         <a href="/logout">Logout</a>
     <% } else { %>
         <a href="/login">Login</a>
@@ -26,7 +26,7 @@
 
 <p><strong>Today’s hydration total:</strong> <%= todayHydrationTotal %> ml</p>
 
-<a href="/diet/add">
+<a href="/usr/455/diet/add">
     <button>Add Food / Hydration</button>
 </a>
 
@@ -53,7 +53,7 @@
                 <p><%= log.notes %></p>
             <% } %>
 
-            <form action="/diet/delete-food/<%= log.id %>?_method=DELETE" method="POST">
+            <form action="/usr/455/diet/delete-food/<%= log.id %>?_method=DELETE" method="POST">
                 <button type="submit">Delete</button>
             </form>
         </div>
@@ -69,7 +69,7 @@
         <div style="margin-bottom: 10px; padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
             <strong><%= h.amount_ml %> ml</strong> — <%= h.logged_at %>
 
-            <form action="/diet/delete-hydration/<%= h.id %>?_method=DELETE" method="POST">
+            <form action="/usr/455/diet/delete-hydration/<%= h.id %>?_method=DELETE" method="POST">
                 <button type="submit">Delete</button>
             </form>
         </div>
