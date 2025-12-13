@@ -1,5 +1,4 @@
 // This line loads the values from the .env file into our project. 
-console.log('INDEX.JS IS RUNNING');
 require('dotenv').config();
 
 // We import all the libraries we need for our web application.
@@ -60,7 +59,7 @@ app.use('/records', recordRoutes);
 
 // Load quick wellness check routes
 const wellnessRoutes = require('./routes/wellness');
-app.use(wellnessRoutes);
+app.use('/wellness', wellnessRoutes);
 
 // Load vision board routes (writing and viewing the user's health vision)
 const visionRoutes = require('./routes/vision');
