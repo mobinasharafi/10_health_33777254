@@ -56,7 +56,7 @@ app.use(authRoutes);
 
 // Load health records routes
 const recordRoutes = require('./routes/records');
-app.use(recordRoutes);
+app.use('/records', recordRoutes);
 
 // Load quick wellness check routes
 const wellnessRoutes = require('./routes/wellness');
