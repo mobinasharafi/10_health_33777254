@@ -21,11 +21,7 @@ function isComplete(reqBody, keys) {
     return keys.every(k => reqBody[k] !== undefined && reqBody[k] !== null && reqBody[k] !== "");
 }
 
-router.get('/wellness', (req, res) => {
-    if (!req.session.userId) {
-        return res.redirect('/usr/455/login');
-    }
-
+function renderWellness(req, res) {
     res.render('wellness', {
         answers: {},
         results: null,
@@ -34,6 +30,20 @@ router.get('/wellness', (req, res) => {
         overallComplete: false,
         session: req.session
     });
+}
+
+router.get('/wellness', (req, res) => {
+    if (!req.session.userId) {
+        return res.redirect('/usr/455/login');
+    }
+    renderWellness(req, res);
+});
+
+router.get('/wellness/', (req, res) => {
+    if (!req.session.userId) {
+        return res.redirect('/usr/455/login');
+    }
+    renderWellness(req, res);
 });
 
 router.post('/wellness', (req, res) => {
