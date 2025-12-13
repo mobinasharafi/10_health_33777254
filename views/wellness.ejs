@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Quick Wellness Check</title>
+    <link rel="stylesheet" href="/css/style.css">
+
+    <style>
+        .section {
+            border: 1px solid #ddd;
+            padding: 14px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+
+        .q {
+            margin: 10px 0;
+        }
+
+        .options label {
+            margin-right: 12px;
+            display: inline-block;
+        }
+
+        .inline-result {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .summary {
+            border: 1px solid #000;
+            padding: 14px;
+            margin-top: 30px;
+            border-radius: 10px;
+        }
+
+        .small {
+            font-size: 0.9rem;
+            color: #333;
+        }
+
+        .warn {
+            margin-top: 8px;
+            font-weight: bold;
+            color: #7a0000;
+        }
+
+        button {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="/usr/455/">Home</a>
+    <a href="/usr/455/about">About</a>
+    <a href="/usr/455/records">Records</a>
+    <a href="/usr/455/profile">Profile</a>
+    <a href="/usr/455/vision">Vision Board</a>
+    <a href="/usr/455/wellness">Wellness Check</a>
+    <a href="/usr/455/logout">Logout</a>
+</nav>
+
+<h1>Quick Wellness Check</h1>
+
+<p class="small">
+These questionnaires estimate likelihood only and are not medical advice.
+</p>
+
+<form method="POST" action="/usr/455/wellness">
+
+    <% function radio(name, val, label) { %>
+        <label>
+            <input
+                type="radio"
+                name="<%= name %>"
+                value="<%= val %>"
+                <%= (answers[name] == val) ? 'checked' : '' %>
+            >
+            <%= label %>
+        </label>
+    <% } %>
+
+    <% function scale(name) { %>
+        <div class="options">
+            <% radio(name, 0, 'Never'); %>
+            <% radio(name, 1, 'Sometimes'); %>
+            <% radio(name, 2, 'Often'); %>
+            <% radio(name, 3, 'Almost every day'); %>
+        </div>
+    <% } %>
+
+    <!-- 1) IRON DEFICIENCY -->
+    <div class="section" id="iron">
+        <h2>Iron deficiency questionnaire</h2>
+
+        <div class="q"><p>How often have you felt unusually fatigued?</p><% scale('iron1'); %></div>
+        <div class="q"><p>How often have you felt dizzy or light-headed?</p><% scale('iron2'); %></div>
+        <div class="q"><p>How often have you noticed pale skin or darker under-eyes?</p><% scale('iron3'); %></div>
+        <div class="q"><p>How often have you felt short of breath during normal activity?</p><% scale('iron4'); %></div>
+        <div class="q"><p>How often have you felt colder than others around you?</p><% scale('iron5'); %></div>
+
+        <button type="submit" name="action" value="iron">Get iron deficiency likelihood</button>
+
+        <% if (singleResult && singleResult.key === 'iron') { %>
+            <% if (singleResult.complete) { %>
+                <div class="inline-result">Your iron deficiency likelihood is <%= singleResult.value %>%.</div>
+            <% } else { %>
+                <div class="warn">Answer all 5 questions above to get an accurate estimate.</div>
+            <% } %>
+        <% } %>
+    </div>
+
+    <!-- 2) VITAMIN D -->
+    <div class="section" id="vitd">
+        <h2>Vitamin D deficiency questionnaire</h2>
+
+        <div class="q"><p>How often do you get very little sunlight exposure?</p><% scale('vitd1'); %></div>
+        <div class="q"><p>How often have you felt low or flat in mood?</p><% scale('vitd2'); %></div>
+        <div class="q"><p>How often have you experienced muscle or bone aches?</p><% scale('vitd3'); %></div>
+        <div class="q"><p>How often have you felt physically weak?</p><% scale('vitd4'); %></div>
+        <div class="q"><p>How often have you been getting sick more than usual?</p><% scale('vitd5'); %></div>
+
+        <button type="submit" name="action" value="vitd">Get vitamin D deficiency likelihood</button>
+
+        <% if (singleResult && singleResult.key === 'vitd') { %>
+            <% if (singleResult.complete) { %>
+                <div class="inline-result">Your vitamin D deficiency likelihood is <%= singleResult.value %>%.</div>
+            <% } else { %>
+                <div class="warn">Answer all 5 questions above to get an accurate estimate.</div>
+            <% } %>
+        <% } %>
+    </div>
+
+    <!-- 3) VITAMIN B12 -->
+    <div class="section" id="b12">
+        <h2>Vitamin B12 deficiency questionnaire</h2>
+
+        <div class="q"><p>How often have you felt tingling or numbness in hands or feet?</p><% scale('b121'); %></div>
+        <div class="q"><p>How often have you experienced brain fog or poor concentration?</p><% scale('b122'); %></div>
+        <div class="q"><p>How often have you had memory issues?</p><% scale('b123'); %></div>
+        <div class="q"><p>How often have you felt off-balance or unsteady?</p><% scale('b124'); %></div>
+        <div class="q"><p>How often do you avoid animal-based foods?</p><% scale('b125'); %></div>
+
+        <button type="submit" name="action" value="b12">Get vitamin B12 deficiency likelihood</button>
+
+        <% if (singleResult && singleResult.key === 'b12') { %>
+            <% if (singleResult.complete) { %>
+                <div class="inline-result">Your vitamin B12 deficiency likelihood is <%= singleResult.value %>%.</div>
+            <% } else { %>
+                <div class="warn">Answer all 5 questions above to get an accurate estimate.</div>
+            <% } %>
+        <% } %>
+    </div>
+
+    <!-- 4) DEHYDRATION -->
+    <div class="section" id="dehydration">
+        <h2>Dehydration questionnaire</h2>
+
+        <div class="q"><p>How often have you felt noticeably thirsty?</p><% scale('dehy1'); %></div>
+        <div class="q"><p>How often has your urine been dark yellow?</p><% scale('dehy2'); %></div>
+        <div class="q"><p>How often have you had headaches relieved by drinking water?</p><% scale('dehy3'); %></div>
+        <div class="q"><p>How often have you had dry mouth or lips?</p><% scale('dehy4'); %></div>
+        <div class="q"><p>How often has your focus improved after drinking fluids?</p><% scale('dehy5'); %></div>
+
+        <button type="submit" name="action" value="dehydration">Get dehydration likelihood</button>
+
+        <% if (singleResult && singleResult.key === 'dehydration') { %>
+            <% if (singleResult.complete) { %>
+                <div class="inline-result">Your dehydration likelihood is <%= singleResult.value %>%.</div>
+            <% } else { %>
+                <div class="warn">Answer all 5 questions above to get an accurate estimate.</div>
+            <% } %>
+        <% } %>
+    </div>
+
+    <!-- 5) SLEEP -->
+    <div class="section" id="sleep">
+        <h2>Sleep deprivation questionnaire</h2>
+
+        <div class="q"><p>How often have you slept poorly?</p><% scale('sleep1'); %></div>
+        <div class="q"><p>How often have you felt sleepy during the day?</p><% scale('sleep2'); %></div>
+        <div class="q"><p>How often have you been irritable due to tiredness?</p><% scale('sleep3'); %></div>
+        <div class="q"><p>How often have you struggled to concentrate due to fatigue?</p><% scale('sleep4'); %></div>
+        <div class="q"><p>How often have you had low energy most days?</p><% scale('sleep5'); %></div>
+
+        <button type="submit" name="action" value="sleep">Get sleep deprivation likelihood</button>
+
+        <% if (singleResult && singleResult.key === 'sleep') { %>
+            <% if (singleResult.complete) { %>
+                <div class="inline-result">Your sleep deprivation likelihood is <%= singleResult.value %>%.</div>
+            <% } else { %>
+                <div class="warn">Answer all 5 questions above to get an accurate estimate.</div>
+            <% } %>
+        <% } %>
+    </div>
+
+    <!-- 6) STRESS -->
+    <div class="section" id="stress">
+        <h2>Stress / burnout questionnaire</h2>
+
+        <div class="q"><p>How often have you felt overwhelmed?</p><% scale('stress1'); %></div>
+        <div class="q"><p>How often have you felt anxious or on edge?</p><% scale('stress2'); %></div>
+        <div class="q"><p>How often have you felt low motivation?</p><% scale('stress3'); %></div>
+        <div class="q"><p>How often have you held tension in your body?</p><% scale('stress4'); %></div>
+        <div class="q"><p>How often have you felt unrested despite sleeping?</p><% scale('stress5'); %></div>
+
+        <button type="submit" name="action" value="stress">Get stress / burnout likelihood</button>
+
+        <% if (singleResult && singleResult.key === 'stress') { %>
+            <% if (singleResult.complete) { %>
+                <div class="inline-result">Your stress / burnout likelihood is <%= singleResult.value %>%.</div>
+            <% } else { %>
+                <div class="warn">Answer all 5 questions above to get an accurate estimate.</div>
+            <% } %>
+        <% } %>
+    </div>
+
+    <!-- 7) MAGNESIUM -->
+    <div class="section" id="magnesium">
+        <h2>Magnesium deficiency questionnaire</h2>
+
+        <div class="q"><p>How often have you experienced muscle cramps?</p><% scale('mag1'); %></div>
+        <div class="q"><p>How often have you noticed muscle twitching?</p><% scale('mag2'); %></div>
+        <div class="q"><p>How often have you had restless sleep?</p><% scale('mag3'); %></div>
+        <div class="q"><p>How often have you had headaches?</p><% scale('mag4'); %></div>
+        <div class="q"><p>How often have you felt anxious without a clear reason?</p><% scale('mag5'); %></div>
+
+        <button type="submit" name="action" value="magnesium">Get magnesium deficiency likelihood</button>
+
+        <% if (singleResult && singleResult.key === 'magnesium') { %>
+            <% if (singleResult.complete) { %>
+                <div class="inline-result">Your magnesium deficiency likelihood is <%= singleResult.value %>%.</div>
+            <% } else { %>
+                <div class="warn">Answer all 5 questions above to get an accurate estimate.</div>
+            <% } %>
+        <% } %>
+    </div>
+
+    <!-- 8) THYROID -->
+    <div class="section" id="thyroid">
+        <h2>Thyroid dysfunction questionnaire</h2>
+
+        <div class="q"><p>How often have you felt unusually cold?</p><% scale('thy1'); %></div>
+        <div class="q"><p>How often have you experienced unexplained weight changes?</p><% scale('thy2'); %></div>
+        <div class="q"><p>How often have you noticed hair thinning?</p><% scale('thy3'); %></div>
+        <div class="q"><p>How often have you had dry skin?</p><% scale('thy4'); %></div>
+        <div class="q"><p>How often have you felt fatigued despite enough sleep?</p><% scale('thy5'); %></div>
+
+        <button type="submit" name="action" value="thyroid">Get thyroid dysfunction likelihood</button>
+
+        <% if (singleResult && singleResult.key === 'thyroid') { %>
+            <% if (singleResult.complete) { %>
+                <div class="inline-result">Your thyroid dysfunction likelihood is <%= singleResult.value %>%.</div>
+            <% } else { %>
+                <div class="warn">Answer all 5 questions above to get an accurate estimate.</div>
+            <% } %>
+        <% } %>
+    </div>
+
+    <!-- 9) BLOOD SUGAR -->
+    <div class="section" id="sugar">
+        <h2>Blood sugar instability questionnaire</h2>
+
+        <div class="q"><p>How often have you had energy crashes after eating?</p><% scale('sugar1'); %></div>
+        <div class="q"><p>How often have you felt shaky when hungry?</p><% scale('sugar2'); %></div>
+        <div class="q"><p>How often have you had strong sugar cravings?</p><% scale('sugar3'); %></div>
+        <div class="q"><p>How often have your moods shifted with hunger?</p><% scale('sugar4'); %></div>
+        <div class="q"><p>How often has your focus improved after eating?</p><% scale('sugar5'); %></div>
+
+        <button type="submit" name="action" value="sugar">Get blood sugar instability likelihood</button>
+
+        <% if (singleResult && singleResult.key === 'sugar') { %>
+            <% if (singleResult.complete) { %>
+                <div class="inline-result">Your blood sugar instability likelihood is <%= singleResult.value %>%.</div>
+            <% } else { %>
+                <div class="warn">Answer all 5 questions above to get an accurate estimate.</div>
+            <% } %>
+        <% } %>
+    </div>
+
+    <!-- 10) IMMUNE -->
+    <div class="section" id="immune">
+        <h2>Immune weakness questionnaire</h2>
+
+        <div class="q"><p>How often have you caught colds or bugs?</p><% scale('imm1'); %></div>
+        <div class="q"><p>How often have you recovered slowly from illness?</p><% scale('imm2'); %></div>
+        <div class="q"><p>How often have you had low energy overall?</p><% scale('imm3'); %></div>
+        <div class="q"><p>How often have you had sore throat symptoms?</p><% scale('imm4'); %></div>
+        <div class="q"><p>How often have you felt run down most days?</p><% scale('imm5'); %></div>
+
+        <button type="submit" name="action" value="immune">Get immune weakness likelihood</button>
+
+        <% if (singleResult && singleResult.key === 'immune') { %>
+            <% if (singleResult.complete) { %>
+                <div class="inline-result">Your immune weakness likelihood is <%= singleResult.value %>%.</div>
+            <% } else { %>
+                <div class="warn">Answer all 5 questions above to get an accurate estimate.</div>
+            <% } %>
+        <% } %>
+    </div>
+
+    <button type="submit" name="action" value="all">Get full wellness overview</button>
+
+</form>
+
+<% if (results) { %>
+    <div class="summary">
+        <h2>Overall likelihood summary</h2>
+
+        <% if (!overallComplete) { %>
+            <p class="small"><strong>Note:</strong> Some questionnaires are incomplete. Answer all questions for accurate estimates.</p>
+        <% } %>
+
+        <p>Your iron deficiency likelihood is <%= (results.iron === null ? 'not available (incomplete)' : results.iron + '%') %>.</p>
+        <p>Your vitamin D deficiency likelihood is <%= (results.vitd === null ? 'not available (incomplete)' : results.vitd + '%') %>.</p>
+        <p>Your vitamin B12 deficiency likelihood is <%= (results.b12 === null ? 'not available (incomplete)' : results.b12 + '%') %>.</p>
+        <p>Your dehydration likelihood is <%= (results.dehydration === null ? 'not available (incomplete)' : results.dehydration + '%') %>.</p>
+        <p>Your sleep deprivation likelihood is <%= (results.sleep === null ? 'not available (incomplete)' : results.sleep + '%') %>.</p>
+        <p>Your stress / burnout likelihood is <%= (results.stress === null ? 'not available (incomplete)' : results.stress + '%') %>.</p>
+        <p>Your magnesium deficiency likelihood is <%= (results.magnesium === null ? 'not available (incomplete)' : results.magnesium + '%') %>.</p>
+        <p>Your thyroid dysfunction likelihood is <%= (results.thyroid === null ? 'not available (incomplete)' : results.thyroid + '%') %>.</p>
+        <p>Your blood sugar instability likelihood is <%= (results.sugar === null ? 'not available (incomplete)' : results.sugar + '%') %>.</p>
+        <p>Your immune weakness likelihood is <%= (results.immune === null ? 'not available (incomplete)' : results.immune + '%') %>.</p>
+    </div>
+<% } %>
+
+<% if (singleResult) { %>
+<script>
+    document.getElementById("<%= singleResult.key %>")?.scrollIntoView({ behavior: "smooth" });
+</script>
+<% } %>
+
+</body>
+</html>

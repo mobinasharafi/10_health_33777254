@@ -51,6 +51,10 @@ app.use(BASE_PATH, authRoutes);
 const recordRoutes = require('./routes/records');
 app.use(BASE_PATH, recordRoutes);
 
+// Load quick wellness check routes
+const wellnessRoutes = require('./routes/wellness');
+app.use(BASE_PATH, wellnessRoutes);
+
 // Load vision board routes (writing and viewing the user's health vision)
 const visionRoutes = require('./routes/vision');
 app.use(BASE_PATH, visionRoutes);
