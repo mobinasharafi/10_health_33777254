@@ -38,7 +38,8 @@
 
 <div class="edit-container">
 
-    <form action="vision/update" method="POST">
+    <!-- Submitting from /vision/edit, so using a relative path here avoids duplicating /vision -->
+    <form action="../vision/update" method="POST">
         <label>Edit your vision text:</label>
         <textarea name="vision_text" required><%= visionText %></textarea>
 
@@ -49,3 +50,4 @@
 
 </body>
 </html>
+
