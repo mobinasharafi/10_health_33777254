@@ -15,27 +15,12 @@ const app = express();
 // The lab instructs that the app should run on 8000 per usual, it's followed here.
 const PORT = 8000;
 
-// Base path for Goldsmiths VM deployment
-const BASE_PATH = '/usr/455';
-
 // This lets our app read the information people send in forms or as JSON data.
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // this allows us to use HTTP verbs such as PUT or DELETE in places where the client doesn't support it.
 app.use(methodOverride('_method'));
-
-// Fix absolute redirects so they stay inside /usr/455
-app.use((req, res, next) => {
-    const originalRedirect = res.redirect.bind(res);
-    res.redirect = (url) => {
-        if (typeof url === 'string' && url.startsWith('/') && !url.startsWith(BASE_PATH + '/')) {
-            url = BASE_PATH + url;
-        }
-        return originalRedirect(url);
-    };
-    next();
-});
 
 // This line tells the app where to find static files like CSS, images, and client-side JavaScript.
 app.use(express.static(path.join(__dirname, 'public')));
