@@ -21,6 +21,10 @@ function isComplete(reqBody, keys) {
 }
 
 router.get('/wellness', (req, res) => {
+    if (!req.session.userId) {
+        return res.redirect('/usr/455/login');
+    }
+
     res.render('wellness', {
         answers: {},
         results: null,
@@ -32,6 +36,10 @@ router.get('/wellness', (req, res) => {
 });
 
 router.post('/wellness', (req, res) => {
+    if (!req.session.userId) {
+        return res.redirect('/usr/455/login');
+    }
+
     const v = (name) => Number(req.body[name] ?? 0);
     const action = req.body.action;
 
