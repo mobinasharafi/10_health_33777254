@@ -80,7 +80,7 @@ router.post('/vision', async (req, res) => {
             );
         }
 
-        res.redirect('/vision');
+        res.redirect('/usr/455/vision');
     } catch (error) {
         console.error(error);
         res.send("Something went wrong while saving the vision.");
@@ -133,7 +133,7 @@ router.post('/vision/upload', upload.single('vision_image'), async (req, res) =>
             [req.session.userId, req.file.filename]
         );
 
-        res.redirect('/vision');
+        res.redirect('/usr/455/vision');
 
     } catch (error) {
         console.error(error);
@@ -151,7 +151,7 @@ router.delete('/vision/delete-image/:id', async (req, res) => {
             [req.params.id, req.session.userId]
         );
 
-        res.redirect('/vision');
+        res.redirect('/usr/455/vision');
 
     } catch (error) {
         console.error(error);
