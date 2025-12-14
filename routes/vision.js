@@ -134,7 +134,7 @@ router.post('/vision/upload', upload.single('vision_image'), async (req, res) =>
         );
 
         // Redirect to success page after uploading an image
-        res.redirect('/usr/455/vision/upload-success');
+        res.redirect(req.baseUrl + '/vision/upload-success');
 
     } catch (error) {
         console.error(error);
@@ -153,7 +153,7 @@ router.delete('/vision/delete-image/:id', async (req, res) => {
         );
 
         // Redirect to success page after deleting an image
-        res.redirect('/usr/455/vision/delete-success');
+        res.redirect(req.baseUrl + '/vision/delete-success');
 
     } catch (error) {
         console.error(error);
