@@ -133,7 +133,8 @@ router.post('/vision/upload', upload.single('vision_image'), async (req, res) =>
             [req.session.userId, req.file.filename]
         );
 
-        res.redirect('/usr/455/vision/upload-success');
+        // Same flow as editing vision text: POST then redirect back to vision page
+        res.redirect('/usr/455/vision');
 
     } catch (error) {
         console.error(error);
@@ -141,7 +142,7 @@ router.post('/vision/upload', upload.single('vision_image'), async (req, res) =>
     }
 });
 
-// Delete an image from vision board
+// Delete an image from vision board (UNCHANGED)
 router.delete('/vision/delete-image/:id', async (req, res) => {
     if (!req.session.userId) return res.redirect('/login');
 
@@ -151,22 +152,12 @@ router.delete('/vision/delete-image/:id', async (req, res) => {
             [req.params.id, req.session.userId]
         );
 
-        res.redirect('/usr/455/vision/delete-success');
+        res.redirect('/usr/455/vision');
 
     } catch (error) {
         console.error(error);
         res.send("Something went wrong deleting your image.");
     }
-});
-
-// Shows confirmation page after successful image upload
-router.get('/vision/upload-success', (req, res) => {
-    res.render('vision_upload_success');
-});
-
-// Shows confirmation page after successful image deletion
-router.get('/vision/delete-success', (req, res) => {
-    res.render('vision_delete_success');
 });
 
 module.exports = router;
