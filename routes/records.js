@@ -11,7 +11,7 @@ router.get('/records', async (req, res) => {
     try {
         // If the user is not logged in, send them back to the login page
         if (!req.session.userId) {
-            return res.redirect('/login');
+            return res.redirect('../login');
         }
 
         // Determine sorting method chosen by the user
@@ -50,7 +50,7 @@ router.get('/records', async (req, res) => {
 // Showing the "Add Record" form
 router.get('/records/add', (req, res) => {
     if (!req.session.userId) {
-        return res.redirect('/login');
+        return res.redirect('../login');
     }
     res.render('add_record');
 });
@@ -60,7 +60,7 @@ router.get('/records/add', (req, res) => {
 router.post('/records/add', async (req, res) => {
     try {
         if (!req.session.userId) {
-            return res.redirect('/login');
+            return res.redirect('../login');
         }
 
         // Read the values from the form given by the user
@@ -78,7 +78,7 @@ router.post('/records/add', async (req, res) => {
             ]
         );
 
-        res.redirect('/records');
+        res.redirect('../records');
 
     } catch (error) {
         console.error(error);
@@ -91,7 +91,7 @@ router.post('/records/add', async (req, res) => {
 router.get('/records/edit/:id', async (req, res) => {
     try {
         if (!req.session.userId) {
-            return res.redirect('/login');
+            return res.redirect('../login');
         }
 
         const recordId = req.params.id;
@@ -104,7 +104,7 @@ router.get('/records/edit/:id', async (req, res) => {
 
         // If no record found, redirect to records list
         if (rows.length === 0) {
-            return res.redirect('/records');
+            return res.redirect('../records');
         }
 
         const record = rows[0];
@@ -121,7 +121,7 @@ router.get('/records/edit/:id', async (req, res) => {
 router.put('/records/edit/:id', async (req, res) => {
     try {
         if (!req.session.userId) {
-            return res.redirect('/login');
+            return res.redirect('../login');
         }
 
         const recordId = req.params.id;
@@ -139,7 +139,7 @@ router.put('/records/edit/:id', async (req, res) => {
             ]
         );
 
-        res.redirect('/records');
+        res.redirect('../records');
 
     } catch (error) {
         console.error(error);
@@ -152,7 +152,7 @@ router.put('/records/edit/:id', async (req, res) => {
 router.get('/records/search', async (req, res) => {
     try {
         if (!req.session.userId) {
-            return res.redirect('/login');
+            return res.redirect('../login');
         }
 
         const searchTerm = req.query.q;
@@ -175,7 +175,7 @@ router.get('/records/search', async (req, res) => {
 router.delete('/records/delete/:id', async (req, res) => {
     try {
         if (!req.session.userId) {
-            return res.redirect('/login');
+            return res.redirect('../login');
         }
 
         const recordId = req.params.id;
@@ -185,7 +185,7 @@ router.delete('/records/delete/:id', async (req, res) => {
             [recordId, req.session.userId]
         );
 
-        res.redirect('/records');
+        res.redirect('../records');
 
     } catch (error) {
         console.error(error);
