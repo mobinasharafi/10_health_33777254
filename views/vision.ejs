@@ -128,7 +128,7 @@
 
     <h2>Add an image to your vision board</h2>
 
-    <form action="upload" method="POST" enctype="multipart/form-data" style="margin-bottom: 8px;">
+    <form action="vision/upload" method="POST" enctype="multipart/form-data" style="margin-bottom: 8px;">
         <input type="file" name="vision_image" accept="image/*" required>
         <button type="submit">Upload</button>
     </form>
@@ -144,7 +144,7 @@
                     <img src="/uploads/<%= img.filename %>" alt="Vision Image">
 
                     <form 
-                        action="delete-image/<%= img.id %>?_method=DELETE"  
+                        action="vision/delete-image/<%= img.id %>?_method=DELETE" method="POST"  
                         method="POST"
                         onsubmit="return confirmDelete(event)"
                     >
