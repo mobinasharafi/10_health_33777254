@@ -72,8 +72,8 @@ router.post('/add', async (req, res) => {
             ]
         );
 
-        // After adding a record, redirect back to the records list.
-        res.redirect(req.baseUrl);
+        // After adding a record, return to the records page.
+        res.redirect('/usr/455/records');
 
     } catch (error) {
         console.error(error);
@@ -98,7 +98,7 @@ router.get('/edit/:id', async (req, res) => {
         );
 
         if (rows.length === 0) {
-            return res.redirect(req.baseUrl);
+            return res.redirect('/usr/455/records');
         }
 
         res.render('edit_record', { record: rows[0] });
@@ -133,8 +133,8 @@ router.put('/edit/:id', async (req, res) => {
             ]
         );
 
-        // After editing a record, return to the records list.
-        res.redirect(req.baseUrl);
+        // After editing a record, return to the records page.
+        res.redirect('/usr/455/records');
 
     } catch (error) {
         console.error(error);
@@ -182,8 +182,8 @@ router.delete('/delete/:id', async (req, res) => {
             [recordId, req.session.userId]
         );
 
-        // After deleting a record, return to the records list.
-        res.redirect(req.baseUrl);
+        // Same flow as deleting a vision image: redirect back to the records page.
+        res.redirect('/usr/455/records');
 
     } catch (error) {
         console.error(error);
