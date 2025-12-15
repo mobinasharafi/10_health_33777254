@@ -81,8 +81,9 @@ const authRoutes = require('./routes/auth');
 app.use(authRoutes);
 
 // Load health records routes
+// These routes are mounted under /records so the records router handles all /records URLs.
 const recordRoutes = require('./routes/records');
-app.use(recordRoutes);
+app.use('/records', recordRoutes);
 
 // Load vision board routes (writing and viewing the user's health vision)
 const visionRoutes = require('./routes/vision');
