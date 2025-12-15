@@ -78,7 +78,7 @@ router.post('/records/add', async (req, res) => {
             ]
         );
 
-        res.redirect('records');
+        res.redirect('/records');
 
     } catch (error) {
         console.error(error);
@@ -104,7 +104,7 @@ router.get('/records/edit/:id', async (req, res) => {
 
         // If no record found, redirect to records list
         if (rows.length === 0) {
-            return res.redirect('records');
+            return res.redirect('/records');
         }
 
         const record = rows[0];
@@ -139,7 +139,7 @@ router.put('/records/edit/:id', async (req, res) => {
             ]
         );
 
-        res.redirect('records');
+        res.redirect('/records');
 
     } catch (error) {
         console.error(error);
@@ -185,7 +185,7 @@ router.delete('/records/delete/:id', async (req, res) => {
             [recordId, req.session.userId]
         );
 
-        res.redirect('records');
+        res.redirect('/records');
 
     } catch (error) {
         console.error(error);
