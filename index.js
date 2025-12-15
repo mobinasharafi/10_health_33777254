@@ -40,6 +40,10 @@ app.use((req, res, next) => {
     next();
 });
 
+// View engine setup
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+
 // Routes
 const authRoutes = require('./routes/auth');
 app.use(authRoutes);
@@ -55,10 +59,6 @@ app.use(wellnessRoutes);
 
 const dietRoutes = require('./routes/diet');
 app.use(dietRoutes);
-
-// View engine setup
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
 
 // Home route
 app.get('/', async (req, res) => {
