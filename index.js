@@ -40,26 +40,6 @@ app.use((req, res, next) => {
     next();
 });
 
-// Load log in routes
-const authRoutes = require('./routes/auth');
-app.use(authRoutes);
-
-// Load health records routes
-const recordRoutes = require('./routes/records');
-app.use(recordRoutes);
-
-// Load vision board routes (writing and viewing the user's health vision)
-const visionRoutes = require('./routes/vision');
-app.use(visionRoutes);
-
-// Load wellness check routes (quick health and wellness questionnaires)
-const wellnessRoutes = require('./routes/wellness');
-app.use(wellnessRoutes);
-
-// Load diet explorer routes (diet suggestions based on goal, BMI, preferences)
-const dietRoutes = require('./routes/diet');
-app.use(dietRoutes);
-
 // view engine setup:
 app.set('view engine', 'ejs');
 
@@ -95,6 +75,26 @@ app.get('/', async (req, res) => {
 app.get('/about', (req, res) => {
     res.render('about');
 });
+
+// Load log in routes
+const authRoutes = require('./routes/auth');
+app.use(authRoutes);
+
+// Load health records routes
+const recordRoutes = require('./routes/records');
+app.use(recordRoutes);
+
+// Load vision board routes (writing and viewing the user's health vision)
+const visionRoutes = require('./routes/vision');
+app.use(visionRoutes);
+
+// Load wellness check routes (quick health and wellness questionnaires)
+const wellnessRoutes = require('./routes/wellness');
+app.use(wellnessRoutes);
+
+// Load diet explorer routes (diet suggestions based on goal, BMI, preferences)
+const dietRoutes = require('./routes/diet');
+app.use(dietRoutes);
 
 // Start the web server and listen on the specified port.
 app.listen(PORT, () => {
