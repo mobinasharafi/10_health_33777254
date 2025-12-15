@@ -72,7 +72,8 @@ router.post('/add', async (req, res) => {
             ]
         );
 
-        res.redirect('/records');
+        // After adding a record, redirect back to the records list.
+        res.redirect(req.baseUrl);
 
     } catch (error) {
         console.error(error);
@@ -97,7 +98,7 @@ router.get('/edit/:id', async (req, res) => {
         );
 
         if (rows.length === 0) {
-            return res.redirect('/records');
+            return res.redirect(req.baseUrl);
         }
 
         res.render('edit_record', { record: rows[0] });
@@ -132,7 +133,8 @@ router.put('/edit/:id', async (req, res) => {
             ]
         );
 
-        res.redirect('/records');
+        // After editing a record, return to the records list.
+        res.redirect(req.baseUrl);
 
     } catch (error) {
         console.error(error);
@@ -180,7 +182,8 @@ router.delete('/delete/:id', async (req, res) => {
             [recordId, req.session.userId]
         );
 
-        res.redirect('/records');
+        // After deleting a record, return to the records list.
+        res.redirect(req.baseUrl);
 
     } catch (error) {
         console.error(error);
