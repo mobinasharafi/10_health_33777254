@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+     <nav>
+     <a href="/home">Home</a>
+     <a href="/about">About</a>
+
+     <% if (session && session.userId) { %>
+        <a href="/records">View My Records</a>
+        <a href="/profile">Profile</a>
+        <a href="/vision">Vision Board</a>
+        <a href="/diet">Diet Explorer</a>
+        <a href="/logout">Logout</a>
+     <% } else { %>
+        <a href="/login">Login</a>
+        <a href="/register">Register</a>
+        <a href="/diet">Diet Explorer</a>
+     <% } %>
+     </nav>
+
+    <h1>Welcome to the Health App</h1>
+
+    <p style="margin-bottom:20px;">
+        This application offers a calm, organised way to follow your health over time. As you record 
+        your activities and personal details, you create a clearer picture of how your habits shape 
+        your overall wellbeing.
+    </p>
+
+    <p style="margin-bottom:30px;">
+        Your profile also includes a personal health vision board, a place to gather images 
+        and intentions that reflect the life you are working toward. It serves as a small reminder of 
+        what inspires you and the direction you want to grow in.
+    </p>
+
+    <!-- Quick wellness check point (available to all users) -->
+    <div style="margin-bottom:30px;">
+        <p>
+            Curious about how your body and mind might be responding lately?
+        </p>
+        <a href="/wellness">
+            Take a quick health & wellness check
+        </a>
+    </div>
+
+    <div style="display:flex; gap:20px; margin-top:20px;">
+        <img src="/images/health1.jpg" alt="Health image 1" style="width:45%; height:auto; border-radius:8px;">
+        <img src="/images/health2.jpg" alt="Health image 2" style="width:45%; height:auto; border-radius:8px;">
+    </div>
+
+</body>
+</html>

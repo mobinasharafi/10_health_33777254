@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <h1>Create an Account</h1>
+
+    <% if (session.error) { %>
+        <p style="color:red;"><%= session.error %></p>
+        <% session.error = null; %>
+    <% } %>
+
+    <form action="register" method="POST">
+        <label>First name:</label>
+        <input type="text" name="first_name" required>
+
+        <label>Last name:</label>
+        <input type="text" name="last_name" required>
+
+        <label>Age:</label>
+        <input type="number" name="age" min="1" max="120" required>
+
+        <label>Height (cm):</label>
+        <input type="number" name="height_cm" min="50" max="250" required>
+
+        <label>Weight (kg):</label>
+        <input type="number" name="weight_kg" min="20" max="300" required>
+
+        <label>Health goal:</label>
+        <select name="goal" id="goal-select" required>
+            <option value="Weight gain">Weight gain</option>
+            <option value="Weight loss">Weight loss</option>
+            <option value="Improve overall health/fitness">Improve overall health/fitness</option>
+            <option value="Building a better physique">Building a better physique</option>
+            <option value="Other">Other</option>
+        </select>
+
+        <label id="goal-other-label" style="display:none;">If you chose "Other", describe your goal:</label>
+        <input 
+            type="text" 
+            name="goal_other" 
+            id="goal-other-input" 
+            placeholder="Optional custom goal"
+            style="display:none;"
+        >
+
+        <label>Choose a username:</label>
+        <input type="text" name="username" required>
+
+        <label>Create a password:</label>
+        <input type="password" name="password" required>
+
+        <button type="submit">Register</button>
+    </form>
+
+    <a href="login">Already have an account? Login</a>
+
+    <script>
+        const goalSelect = document.getElementById('goal-select');
+        const goalOtherInput = document.getElementById('goal-other-input');
+        const goalOtherLabel = document.getElementById('goal-other-label');
+
+        function toggleOtherField() {
+            if (goalSelect.value === 'Other') {
+                goalOtherLabel.style.display = 'block';
+                goalOtherInput.style.display = 'block';
+                goalOtherInput.focus();
+            } else {
+                goalOtherLabel.style.display = 'none';
+                goalOtherInput.style.display = 'none';
+                goalOtherInput.value = '';
+            }
+        }
+
+        goalSelect.addEventListener('change', toggleOtherField);
+    </script>
+
+
+</body>
+</html>

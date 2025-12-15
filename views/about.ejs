@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>About</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+     <nav>
+     <a href="/">Home</a>
+     <a href="/about">About</a>
+
+     <% if (session && session.userId) { %>
+        <a href="/records">View My Records</a>
+        <a href="/profile">Profile</a>
+        <a href="/vision">Vision Board</a>
+        <a href="/diet">Diet Explorer</a>
+        <a href="/logout">Logout</a>
+     <% } else { %>
+        <a href="/login">Login</a>
+        <a href="/register">Register</a>
+        <a href="/diet">Diet Explorer</a>
+     <% } %>
+     </nav>
+
+
+    <h1>About Page</h1>
+
+    <p style="margin-bottom:15px;">
+        This project was created for the Dynamic Web Applications final assignment, 
+        as a way to demonstrate practical skills in building a full-stack web application 
+        using Node.js, Express, MySQL, and EJS.
+    </p>
+
+    <p style="margin-bottom:15px;">
+        The app helps users track their health habits, understand their personal data more clearly, 
+        and organise their goals through features like activity logging, profile management, 
+        and a personal Health Vision Board.
+    </p>
+
+    <p style="margin-bottom:25px;">
+        <strong>Created by Mobina Sharafi, BSc Computer Science, Goldsmiths, University of London.</strong>
+    </p>
+
+</body>
+</html>
+
