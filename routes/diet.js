@@ -49,49 +49,54 @@ function calculateBmiCategory(heightCm, weightKg) {
 function scoreDiet(diet, goal, prefs) {
     let score = 0;
 
-    // Core goal match (more impactful than preferences)
-    if (diet.goals.includes(goal)) score += 5;
+    // Core goal match (still important, but no longer overwhelms everything)
+    if (diet.goals.includes(goal)) score += 4;
 
     // Enjoys plant-heavy meals
-    if (prefs.vegetarian && ["mediterranean", "plant_based", "dash"].includes(diet.key)) {
-        score += 2;
+    if (prefs.vegetarian) {
+        if (["plant_based", "mediterranean", "dash"].includes(diet.key)) score += 3;
+        if (["keto", "paleo", "bulking", "mass_gainer"].includes(diet.key)) score -= 2;
     }
 
     // Feels better eating meat regularly
-    if (prefs.meat && ["high_protein", "keto", "paleo", "clean_eating", "bulking"].includes(diet.key)) {
-        score += 2;
+    if (prefs.meat) {
+        if (["high_protein", "paleo", "clean_eating", "bulking"].includes(diet.key)) score += 3;
+        if (diet.key === "plant_based") score -= 2;
     }
 
-    // Has a sweet tooth (flexible diets cope better)
+    // Has a sweet tooth
     if (prefs.sweet) {
-        if (["mediterranean", "zone"].includes(diet.key)) score += 1;
-        if (diet.key === "keto") score -= 1;
+        if (["mediterranean", "zone"].includes(diet.key)) score += 2;
+        if (["keto", "cutting"].includes(diet.key)) score -= 2;
     }
 
     // Craves filling, hearty meals
-    if (prefs.hearty && ["high_protein", "bulking", "mass_gainer", "paleo"].includes(diet.key)) {
-        score += 2;
+    if (prefs.hearty) {
+        if (["high_protein", "bulking", "mass_gainer", "paleo"].includes(diet.key)) score += 3;
+        if (["intermittent_fasting", "plant_based"].includes(diet.key)) score -= 1;
     }
 
     // Prefers light meals
-    if (prefs.light && ["mediterranean", "plant_based", "dash", "intermittent_fasting"].includes(diet.key)) {
-        score += 2;
+    if (prefs.light) {
+        if (["mediterranean", "plant_based", "dash", "intermittent_fasting"].includes(diet.key)) score += 3;
+        if (["bulking", "mass_gainer"].includes(diet.key)) score -= 2;
     }
 
     // Enjoys eating the same things often
-    if (prefs.routine && ["keto", "clean_eating", "zone", "high_protein"].includes(diet.key)) {
-        score += 1;
+    if (prefs.routine) {
+        if (["keto", "clean_eating", "zone", "high_protein"].includes(diet.key)) score += 2;
     }
 
     // Needs variety
     if (prefs.variety) {
-        if (["mediterranean", "dash", "plant_based"].includes(diet.key)) score += 1;
-        if (["keto", "clean_eating"].includes(diet.key)) score -= 1;
+        if (["mediterranean", "dash", "plant_based"].includes(diet.key)) score += 2;
+        if (["keto", "clean_eating"].includes(diet.key)) score -= 2;
     }
 
     // Eats for fuel more than pleasure
-    if (prefs.fuel && ["high_protein", "clean_eating", "zone", "cutting"].includes(diet.key)) {
-        score += 1;
+    if (prefs.fuel) {
+        if (["high_protein", "clean_eating", "cutting", "zone"].includes(diet.key)) score += 2;
+        if (["mediterranean"].includes(diet.key)) score -= 1;
     }
 
     return score;
@@ -132,7 +137,6 @@ router.post('/diet', async (req, res) => {
         user = rows[0] || null;
         bmiCategory = user?.bmi_category;
     } else {
-        // Logged-out users: calculate BMI from submitted height & weight
         const height = Number(req.body.height_cm);
         const weight = Number(req.body.weight_kg);
 
@@ -141,13 +145,11 @@ router.post('/diet', async (req, res) => {
         }
     }
 
-    // Decide which goal to use for suggestions
     const effectiveGoal =
         user && !isStandardGoal(user.goal)
             ? req.body.goal_override
             : user?.goal || req.body.goal_override;
 
-    // Read preference flags from the form
     const prefs = {
         vegetarian: !!req.body.vegetarian,
         meat: !!req.body.meat,
