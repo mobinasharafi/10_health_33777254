@@ -7,25 +7,13 @@
 
 body {
     font-family: Arial, Helvetica, sans-serif;
-    background: #ffffff; /* fallback */
+    background: #d6e3f6;
     color: #222;
     max-width: 600px;
     margin: 40px auto;
     padding: 0 20px;
     line-height: 1.6;
-    text-align: center;
-    transition: background-color 0.4s ease;
-    
-    /* FIX: hide until theme loads */
-    visibility: hidden;
-}
-
-/* Show body ONLY when theme class is applied */
-body.theme-morning,
-body.theme-day,
-body.theme-evening,
-body.theme-night {
-    visibility: visible;
+    text-align: center; /* makes Add Record, headers, etc. centered */
 }
 
 /* Title */
@@ -109,7 +97,7 @@ ul {
     list-style: none;
     margin-top: 20px;
     padding-left: 0;
-    text-align: left;
+    text-align: left; /* keeps record text readable */
 }
 
 li {
@@ -127,26 +115,4 @@ li {
 span {
     color: #777;
     font-size: 0.9em;
-}
-
-/* API Time Based Background Colours */
-
-body.theme-morning {
-    background-color: #e2e8f6;
-    color: #000000;
-}
-
-body.theme-day {
-    background-color: #cce6eb;
-    color: #000000;
-}
-
-body.theme-evening {
-    background-color: #55668d;
-    color: #f2f2f2;
-}
-
-body.theme-night {
-    background-color: #0f1116;
-    color: #f8f7f7;
 }

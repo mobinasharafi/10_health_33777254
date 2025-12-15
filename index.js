@@ -56,6 +56,10 @@ app.use(visionRoutes);
 const wellnessRoutes = require('./routes/wellness');
 app.use(wellnessRoutes);
 
+// Load diet explorer routes (diet suggestions based on goal, BMI, preferences)
+const dietRoutes = require('./routes/diet');
+app.use(dietRoutes);
+
 // view engine setup:
 app.set('view engine', 'ejs');
 
