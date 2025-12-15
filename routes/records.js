@@ -10,7 +10,8 @@ const db = require('../config/db');
 router.get('/', async (req, res) => {
     try {
         if (!req.session.userId) {
-            return res.redirect('../login');
+            // If the user is not logged in, redirect them to the login page.
+            return res.redirect('/login');
         }
 
         const sortOption = req.query.sort || "date_desc";
@@ -43,7 +44,8 @@ router.get('/', async (req, res) => {
 // Showing the "Add Record" form
 router.get('/add', (req, res) => {
     if (!req.session.userId) {
-        return res.redirect('../login');
+        // If the user is not logged in, redirect them to the login page.
+        return res.redirect('/login');
     }
     res.render('add_record');
 });
@@ -53,7 +55,8 @@ router.get('/add', (req, res) => {
 router.post('/add', async (req, res) => {
     try {
         if (!req.session.userId) {
-            return res.redirect('../login');
+            // If the user is not logged in, redirect them to the login page.
+            return res.redirect('/login');
         }
 
         const { activity, duration, calories_burnt, intensity } = req.body;
@@ -82,7 +85,8 @@ router.post('/add', async (req, res) => {
 router.get('/edit/:id', async (req, res) => {
     try {
         if (!req.session.userId) {
-            return res.redirect('../login');
+            // If the user is not logged in, redirect them to the login page.
+            return res.redirect('/login');
         }
 
         const recordId = req.params.id;
@@ -109,7 +113,8 @@ router.get('/edit/:id', async (req, res) => {
 router.put('/edit/:id', async (req, res) => {
     try {
         if (!req.session.userId) {
-            return res.redirect('../login');
+            // If the user is not logged in, redirect them to the login page.
+            return res.redirect('/login');
         }
 
         const recordId = req.params.id;
@@ -140,7 +145,8 @@ router.put('/edit/:id', async (req, res) => {
 router.get('/search', async (req, res) => {
     try {
         if (!req.session.userId) {
-            return res.redirect('../login');
+            // If the user is not logged in, redirect them to the login page.
+            return res.redirect('/login');
         }
 
         const searchTerm = req.query.q;
@@ -163,7 +169,8 @@ router.get('/search', async (req, res) => {
 router.delete('/delete/:id', async (req, res) => {
     try {
         if (!req.session.userId) {
-            return res.redirect('../login');
+            // If the user is not logged in, redirect them to the login page.
+            return res.redirect('/login');
         }
 
         const recordId = req.params.id;
