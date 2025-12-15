@@ -46,7 +46,7 @@ app.use(authRoutes);
 
 // Load health records routes
 const recordRoutes = require('./routes/records');
-app.use(recordRoutes);
+app.use('/records', recordRoutes);
 
 // Load vision board routes (writing and viewing the user's health vision)
 const visionRoutes = require('./routes/vision');
