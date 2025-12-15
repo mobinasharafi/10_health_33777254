@@ -45,6 +45,7 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 
+   //ROOT + HOME ROUTES
 // Redirect root to /home
 app.get('/', (req, res) => {
     res.redirect('/home');
@@ -76,7 +77,7 @@ app.get('/about', (req, res) => {
     res.render('about');
 });
 
-// Other route imports
+// other route imports
 
 const authRoutes = require('./routes/auth');
 app.use(authRoutes);
@@ -97,3 +98,4 @@ app.use(dietRoutes);
 app.listen(PORT, () => {
     console.log(`HTTP server listening on port ${PORT}`);
 });
+
