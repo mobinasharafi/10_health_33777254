@@ -44,21 +44,6 @@ app.use((req, res, next) => {
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// Routes
-const authRoutes = require('./routes/auth');
-app.use(authRoutes);
-
-const recordRoutes = require('./routes/records');
-app.use(recordRoutes);
-
-const visionRoutes = require('./routes/vision');
-app.use(visionRoutes);
-
-const wellnessRoutes = require('./routes/wellness');
-app.use(wellnessRoutes);
-
-const dietRoutes = require('./routes/diet');
-app.use(dietRoutes);
 
 // Redirect root to /home
 app.get('/', (req, res) => {
@@ -90,6 +75,23 @@ app.get('/home', async (req, res) => {
 app.get('/about', (req, res) => {
     res.render('about');
 });
+
+// Other route imports
+
+const authRoutes = require('./routes/auth');
+app.use(authRoutes);
+
+const recordRoutes = require('./routes/records');
+app.use(recordRoutes);
+
+const visionRoutes = require('./routes/vision');
+app.use(visionRoutes);
+
+const wellnessRoutes = require('./routes/wellness');
+app.use(wellnessRoutes);
+
+const dietRoutes = require('./routes/diet');
+app.use(dietRoutes);
 
 // Start server
 app.listen(PORT, () => {
