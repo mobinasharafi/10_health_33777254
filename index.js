@@ -60,8 +60,13 @@ app.use(wellnessRoutes);
 const dietRoutes = require('./routes/diet');
 app.use(dietRoutes);
 
+// Redirect root to /home
+app.get('/', (req, res) => {
+    res.redirect('/home');
+});
+
 // Home route
-app.get('/', async (req, res) => {
+app.get('/home', async (req, res) => {
     try {
         if (!req.session.userId) {
             return res.render('home', { user: null });
