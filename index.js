@@ -15,10 +15,6 @@ const app = express();
 // The lab instructs that the app should run on 8000 per usual, it's followed here.
 const PORT = 8000;
 
-// Set EJS as the templating engine
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
-
 // This lets our app read the information people send in forms or as JSON data.
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -63,6 +59,12 @@ app.use(wellnessRoutes);
 // Load diet explorer routes (diet suggestions based on goal, BMI, preferences)
 const dietRoutes = require('./routes/diet');
 app.use(dietRoutes);
+
+// view engine setup:
+app.set('view engine', 'ejs');
+
+// define where the template files are located:
+app.set('views', path.join(__dirname, 'views'));
 
 // These are the routes for our web application. home page and about page.
 app.get('/', async (req, res) => {
