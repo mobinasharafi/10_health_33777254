@@ -4,15 +4,41 @@
     <title>Dietary Approach Explorer</title>
     <link rel="stylesheet" href="/css/style.css">
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
     <style>
         .tiny-input {
-            width: 45px;
-            font-size: 0.85rem;
-            padding: 2px 4px;
+            width: 38px;
+            font-size: 0.75rem;
+            padding: 2px 3px;
         }
 
         .tiny-label {
-            font-size: 0.85rem;
+            font-size: 0.75rem;
+        }
+
+        .body-data {
+            font-size: 0.75rem;
+            opacity: 0.85;
+            margin-bottom: 10px;
+        }
+
+        .preferences {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.05rem;
+            line-height: 1.6;
+            margin-top: 10px;
+        }
+
+        .preferences label {
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .recommendation {
+            margin-bottom: 25px;
         }
 
         input[type=number]::-webkit-inner-spin-button,
@@ -45,7 +71,7 @@
 
 <p>
 This feature suggests dietary approaches based on your goal, body information, and preferences.
-It does not provide medical advice.
+It is important to note that this feature does not provide medical advice.
 </p>
 
 <% if (user) { %>
@@ -57,53 +83,56 @@ It does not provide medical advice.
 
 <% if (!user) { %>
 
-    <!-- Ask for body data only if user is logged out -->
-    <label class="tiny-label">Height (cm):</label>
-    <input
-        type="number"
-        name="height_cm"
-        class="tiny-input"
-        min="80"
-        max="250"
-        required
-    >
+    <div class="body-data">
+        <label class="tiny-label">Height (cm):</label>
+        <input
+            type="number"
+            name="height_cm"
+            class="tiny-input"
+            min="80"
+            max="250"
+            required
+        >
 
-    <br><br>
+        <br><br>
 
-    <label class="tiny-label">Weight (kg):</label>
-    <input
-        type="number"
-        name="weight_kg"
-        class="tiny-input"
-        min="20"
-        max="300"
-        required
-    >
+        <label class="tiny-label">Weight (kg):</label>
+        <input
+            type="number"
+            name="weight_kg"
+            class="tiny-input"
+            min="20"
+            max="300"
+            required
+        >
 
-    <br><br>
+        <br><br>
 
-    <label>Your goal:</label>
-    <select name="goal_override" required>
-        <option value="Weight gain">Weight gain</option>
-        <option value="Weight loss">Weight loss</option>
-        <option value="Improve overall health/fitness">Improve overall health/fitness</option>
-        <option value="Building a better physique">Building a better physique</option>
-    </select>
-
-    <br><br>
+        <label>Your goal:</label>
+        <select name="goal_override" required>
+            <option value="Weight gain">Weight gain</option>
+            <option value="Weight loss">Weight loss</option>
+            <option value="Improve overall health/fitness">Improve overall health/fitness</option>
+            <option value="Building a better physique">Building a better physique</option>
+        </select>
+    </div>
 
 <% } %>
 
 <h3>Food preferences</h3>
 
-<label><input type="checkbox" name="vegetarian"> Enjoys plant-heavy meals</label><br>
-<label><input type="checkbox" name="meat"> Feels better eating meat regularly</label><br>
-<label><input type="checkbox" name="sweet"> Has a sweet tooth</label><br>
-<label><input type="checkbox" name="hearty"> Craves filling, hearty meals</label><br>
-<label><input type="checkbox" name="light"> Prefers light meals, hates feeling too full</label><br>
-<label><input type="checkbox" name="routine"> Enjoys eating the same things often</label><br>
-<label><input type="checkbox" name="variety"> Gets bored easily and needs variety</label><br>
-<label><input type="checkbox" name="fuel"> Eats for fuel more than pleasure</label><br><br>
+<div class="preferences">
+    <label><input type="checkbox" name="vegetarian"> Enjoys plant-heavy meals</label>
+    <label><input type="checkbox" name="meat"> Feels better eating meat regularly</label>
+    <label><input type="checkbox" name="sweet"> Has a sweet tooth</label>
+    <label><input type="checkbox" name="hearty"> Craves filling, hearty meals</label>
+    <label><input type="checkbox" name="light"> Prefers light meals, hates feeling too full</label>
+    <label><input type="checkbox" name="routine"> Enjoys eating the same things often</label>
+    <label><input type="checkbox" name="variety"> Gets bored easily and needs variety</label>
+    <label><input type="checkbox" name="fuel"> Eats for fuel more than pleasure</label>
+</div>
+
+<br>
 
 <button type="submit">Show suitable options</button>
 </form>
@@ -118,20 +147,49 @@ It does not provide medical advice.
     </p>
 <% } %>
 
-<% if (suggestions) { %>
+<% if (suggestions && suggestions.length > 0) { %>
     <hr>
+
     <h2>Your suggested dietary approaches</h2>
 
-    <% suggestions.forEach(d => { %>
-        <div style="margin-bottom:20px;">
-            <strong><%= d.name %></strong>
-            <p><%= d.description %></p>
+    <!-- best fit recommendation -->
+    <div class="recommendation">
+        <p>
+            Taking your goal and stated food preferences into account,
+            the <strong><%= suggestions[0].name %></strong>
+            stands out as the most aligned option for you.
+        </p>
 
-            <a href="<%= d.link %>" target="_blank">
-                Learn more about this approach
-            </a>
-        </div>
-    <% }) %>
+        <p>
+            It offers a balance that fits both what you are aiming to achieve
+            and how you naturally prefer to eat.
+        </p>
+
+        <p><%= suggestions[0].description %></p>
+
+        <a href="<%= suggestions[0].link %>" target="_blank">
+            Learn more about this approach
+        </a>
+    </div>
+
+    <!-- other recommendations -->
+    <% if (suggestions.length > 1) { %>
+        <p>
+            If you find that this approach does not fully suit you in practice,
+            the following alternatives also align reasonably well with your preferences and goal:
+        </p>
+
+        <% suggestions.slice(1).forEach(d => { %>
+            <div style="margin-bottom:15px;">
+                <strong><%= d.name %></strong>
+                <p><%= d.description %></p>
+                <a href="<%= d.link %>" target="_blank">
+                    Learn more
+                </a>
+            </div>
+        <% }) %>
+    <% } %>
+
 <% } %>
 
 </body>

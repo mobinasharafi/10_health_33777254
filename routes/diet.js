@@ -55,7 +55,7 @@ function scoreDiet(diet, goal, prefs) {
     // Enjoys plant-heavy meals
     if (prefs.vegetarian) {
         if (["plant_based", "mediterranean", "dash"].includes(diet.key)) score += 3;
-        if (["keto", "paleo", "bulking", "mass_gainer"].includes(diet.key)) score -= 2;
+        if (["ketogenic", "paleo", "bulking", "mass_gainer"].includes(diet.key)) score -= 2;
     }
 
     // Feels better eating meat regularly
@@ -67,7 +67,7 @@ function scoreDiet(diet, goal, prefs) {
     // Has a sweet tooth
     if (prefs.sweet) {
         if (["mediterranean", "zone"].includes(diet.key)) score += 2;
-        if (["keto", "cutting"].includes(diet.key)) score -= 2;
+        if (["ketogenic", "cutting"].includes(diet.key)) score -= 2;
     }
 
     // Craves filling, hearty meals
@@ -84,13 +84,13 @@ function scoreDiet(diet, goal, prefs) {
 
     // Enjoys eating the same things often
     if (prefs.routine) {
-        if (["keto", "clean_eating", "zone", "high_protein"].includes(diet.key)) score += 2;
+        if (["ketogenic", "clean_eating", "zone", "high_protein"].includes(diet.key)) score += 2;
     }
 
     // Needs variety
     if (prefs.variety) {
         if (["mediterranean", "dash", "plant_based"].includes(diet.key)) score += 2;
-        if (["keto", "clean_eating"].includes(diet.key)) score -= 2;
+        if (["ketogenic", "clean_eating"].includes(diet.key)) score -= 2;
     }
 
     // Eats for fuel more than pleasure
@@ -145,10 +145,16 @@ router.post('/diet', async (req, res) => {
         }
     }
 
-    const effectiveGoal =
-        user && !isStandardGoal(user.goal)
-            ? req.body.goal_override
-            : user?.goal || req.body.goal_override;
+    // Determine the effective goal explicitly to avoid undefined filtering
+    let effectiveGoal;
+
+    if (user) {
+        effectiveGoal = isStandardGoal(user.goal)
+            ? user.goal
+            : req.body.goal_override;
+    } else {
+        effectiveGoal = req.body.goal_override;
+    }
 
     const prefs = {
         vegetarian: !!req.body.vegetarian,
@@ -190,3 +196,4 @@ router.post('/diet', async (req, res) => {
 });
 
 module.exports = router;
+
