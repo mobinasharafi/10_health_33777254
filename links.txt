@@ -8,3 +8,4 @@ add_record=https://www.doc.gold.ac.uk/usr/455/records/add
 vision=https://www.doc.gold.ac.uk/usr/455/vision
 vision_edit=https://www.doc.gold.ac.uk/usr/455/vision/edit
 wellness=https://www.doc.gold.ac.uk/usr/455/wellness
+diet=https://www.doc.gold.ac.uk/usr/455/diet
